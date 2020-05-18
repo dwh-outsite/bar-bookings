@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(Event::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'capacity' => $faker->randomNumber(2),
+        'capacity' => $faker->randomNumber() + 10,
     ];
 });

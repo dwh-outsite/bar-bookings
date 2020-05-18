@@ -108,6 +108,7 @@ class BookingTest extends TestCase
         ]);
 
         $response->assertStatus(422);
-        $this->assertEquals(0, Booking::count());
+        $this->assertEquals(30, Booking::count());
+        $this->assertFalse(Booking::where('email', 'booking@casperboone.nl')->exists());
     }
 }
