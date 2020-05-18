@@ -16,7 +16,7 @@ class BookingTest extends TestCase
     {
         $event = factory(Event::class)->create();
 
-        $response = $this->post('/', [
+        $response = $this->postJson('/', [
             'event_id' => $event->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
@@ -34,12 +34,12 @@ class BookingTest extends TestCase
     {
         $event = factory(Event::class)->create();
 
-        $responseA = $this->post('/', [
+        $responseA = $this->postJson('/', [
             'event_id' => $event->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
         ]);
-        $responseB = $this->post('/', [
+        $responseB = $this->postJson('/', [
             'event_id' => $event->id,
             'name' => 'Henk',
             'email' => 'booking@henk.nl'
@@ -55,13 +55,13 @@ class BookingTest extends TestCase
     {
         $event = factory(Event::class)->create();
 
-        $responseA = $this->post('/', [
+        $responseA = $this->postJson('/', [
             'event_id' => $event->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
         ]);
 
-        $responseB = $this->post('/', [
+        $responseB = $this->postJson('/', [
             'event_id' => $event->id,
             'name' => 'Not Casper',
             'email' => 'booking@casperboone.nl'
@@ -78,13 +78,13 @@ class BookingTest extends TestCase
         $eventA = factory(Event::class)->create();
         $eventB = factory(Event::class)->create();
 
-        $responseA = $this->post('/', [
+        $responseA = $this->postJson('/', [
             'event_id' => $eventA->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
         ]);
 
-        $responseB = $this->post('/', [
+        $responseB = $this->postJson('/', [
             'event_id' => $eventB->id,
             'name' => 'Not Casper',
             'email' => 'booking@casperboone.nl'
@@ -101,7 +101,7 @@ class BookingTest extends TestCase
         $event = factory(Event::class)->create(['capacity' => 30]);
         factory(Booking::class, 30)->create(['event_id' => $event->id]);
 
-        $response = $this->post('/', [
+        $response = $this->postJson('/', [
             'event_id' => $event->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
