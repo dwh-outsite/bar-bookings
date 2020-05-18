@@ -22,7 +22,7 @@ class BookingTest extends TestCase
             'email' => 'booking@casperboone.nl'
         ]);
 
-        $response->assertStatus(200);
+        $response->assertSuccessful();
         $booking = Booking::findOrFail(1);
         $this->assertTrue($event->is($booking->event));
         $this->assertEquals('Casper', $booking->name);
@@ -45,8 +45,8 @@ class BookingTest extends TestCase
             'email' => 'booking@henk.nl'
         ]);
 
-        $responseA->assertStatus(200);
-        $responseB->assertStatus(200);
+        $responseA->assertSuccessful();
+        $responseB->assertSuccessful();
         $this->assertEquals(2, Booking::count());
     }
 
@@ -67,7 +67,7 @@ class BookingTest extends TestCase
             'email' => 'booking@casperboone.nl'
         ]);
 
-        $responseA->assertStatus(200);
+        $responseA->assertSuccessful();
         $responseB->assertStatus(422);
         $this->assertEquals(1, Booking::count());
     }
@@ -90,7 +90,7 @@ class BookingTest extends TestCase
             'email' => 'booking@casperboone.nl'
         ]);
 
-        $responseA->assertStatus(200);
+        $responseA->assertSuccessful();
         $responseB->assertStatus(422);
         $this->assertEquals(1, Booking::count());
     }
