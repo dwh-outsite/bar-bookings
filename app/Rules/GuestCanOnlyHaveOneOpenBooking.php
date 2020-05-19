@@ -18,7 +18,7 @@ class GuestCanOnlyHaveOneOpenBooking implements Rule
     {
         // TODO: Check if booking was in the past
 
-        return !Booking::where('email', $value)->exists();
+        return !Booking::where('email', $value)->endDateInTheFuture()->exists();
     }
 
     /**

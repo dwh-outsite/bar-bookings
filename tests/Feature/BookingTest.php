@@ -14,6 +14,8 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_can_make_a_booking()
     {
+        $this->withoutExceptionHandling();
+
         $event = factory(Event::class)->create();
 
         $response = $this->postJson('/', [
@@ -51,6 +53,29 @@ class BookingTest extends TestCase
     }
 
     /** @test */
+    public function a_guest_can_make_a_booking_for_an_event_in_the_future_after_the_previous_booking_has_expired()
+    {
+        $this->withoutExceptionHandling();
+
+        $pastEvent = factory(Event::class)->state('past')->create();
+        $futureEvent = factory(Event::class)->create();
+
+        factory(Booking::class)->create([
+            'event_id' => $pastEvent->id,
+            'email' => 'booking@casperboone.nl'
+        ]);
+
+        $response = $this->postJson('/', [
+            'event_id' => $futureEvent->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl'
+        ]);
+
+        $response->assertSuccessful();
+        $this->assertEquals(2, Booking::count());
+    }
+
+    /** @test */
     public function a_guest_cannot_make_two_bookings_for_the_same_event()
     {
         $event = factory(Event::class)->create();
@@ -73,7 +98,7 @@ class BookingTest extends TestCase
     }
 
     /** @test */
-    public function a_guest_cannot_make_two_bookings_for_two_different_events()
+    public function a_guest_cannot_make_two_bookings_for_two_different_events_in_the_future()
     {
         $eventA = factory(Event::class)->create();
         $eventB = factory(Event::class)->create();

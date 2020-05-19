@@ -17,6 +17,8 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('capacity');
+            $table->dateTime('start');
+            $table->dateTime('end');
             $table->timestamps();
         });
     }
