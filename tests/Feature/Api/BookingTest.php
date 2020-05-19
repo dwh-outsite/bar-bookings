@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Mail\BookingConfirmation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 use App\Event;
 use App\Booking;
@@ -10,6 +12,13 @@ use App\Booking;
 class BookingTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Mail::fake();
+    }
 
     /** @test */
     public function a_guest_can_make_a_booking()
@@ -29,6 +38,7 @@ class BookingTest extends TestCase
         $this->assertTrue($event->is($booking->event));
         $this->assertEquals('Casper', $booking->name);
         $this->assertEquals('booking@casperboone.nl', $booking->email);
+        Mail::assertQueued(BookingConfirmation::class);
     }
 
     /** @test */
@@ -50,6 +60,7 @@ class BookingTest extends TestCase
         $responseA->assertSuccessful();
         $responseB->assertSuccessful();
         $this->assertEquals(2, Booking::count());
+        Mail::assertQueued(BookingConfirmation::class, 2);
     }
 
     /** @test */
@@ -73,6 +84,7 @@ class BookingTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertEquals(2, Booking::count());
+        Mail::assertQueued(BookingConfirmation::class);
     }
 
     /** @test */
@@ -95,6 +107,7 @@ class BookingTest extends TestCase
         $responseA->assertSuccessful();
         $responseB->assertStatus(422);
         $this->assertEquals(1, Booking::count());
+        Mail::assertQueued(BookingConfirmation::class, 1);
     }
 
     /** @test */
@@ -118,6 +131,7 @@ class BookingTest extends TestCase
         $responseA->assertSuccessful();
         $responseB->assertStatus(422);
         $this->assertEquals(1, Booking::count());
+        Mail::assertQueued(BookingConfirmation::class, 1);
     }
 
     /** @test */
@@ -135,5 +149,32 @@ class BookingTest extends TestCase
         $response->assertStatus(422);
         $this->assertEquals(30, Booking::count());
         $this->assertFalse(Booking::where('email', 'booking@casperboone.nl')->exists());
+        Mail::assertNothingQueued();
+    }
+
+    /** @test */
+    public function a_guest_receives_an_email_after_booking()
+    {
+        $event = factory(Event::class)->create([
+            'name' => '1 juno spektakelfeest',
+        ]);
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl'
+        ]);
+
+        $response->assertSuccessful();
+
+        $booking = Booking::findOrFail(1);
+
+        Mail::assertQueued(BookingConfirmation::class, function (BookingConfirmation $mail) use ($booking) {
+//            $this->assertTrue();
+//            $this->assertEquals('LALALA', $mail->subject);
+//
+            return $mail->booking->is($booking)
+                && $mail->hasTo('booking@casperboone.nl');
+        });
     }
 }
