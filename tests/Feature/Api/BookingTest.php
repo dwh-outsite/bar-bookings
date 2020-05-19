@@ -18,7 +18,7 @@ class BookingTest extends TestCase
 
         $event = factory(Event::class)->create();
 
-        $response = $this->postJson('/', [
+        $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
@@ -36,12 +36,12 @@ class BookingTest extends TestCase
     {
         $event = factory(Event::class)->create();
 
-        $responseA = $this->postJson('/', [
+        $responseA = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
         ]);
-        $responseB = $this->postJson('/', [
+        $responseB = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
             'name' => 'Henk',
             'email' => 'booking@henk.nl'
@@ -65,7 +65,7 @@ class BookingTest extends TestCase
             'email' => 'booking@casperboone.nl'
         ]);
 
-        $response = $this->postJson('/', [
+        $response = $this->postJson('/api/bookings', [
             'event_id' => $futureEvent->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
@@ -80,13 +80,13 @@ class BookingTest extends TestCase
     {
         $event = factory(Event::class)->create();
 
-        $responseA = $this->postJson('/', [
+        $responseA = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
         ]);
 
-        $responseB = $this->postJson('/', [
+        $responseB = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
             'name' => 'Not Casper',
             'email' => 'booking@casperboone.nl'
@@ -103,13 +103,13 @@ class BookingTest extends TestCase
         $eventA = factory(Event::class)->create();
         $eventB = factory(Event::class)->create();
 
-        $responseA = $this->postJson('/', [
+        $responseA = $this->postJson('/api/bookings', [
             'event_id' => $eventA->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'
         ]);
 
-        $responseB = $this->postJson('/', [
+        $responseB = $this->postJson('/api/bookings', [
             'event_id' => $eventB->id,
             'name' => 'Not Casper',
             'email' => 'booking@casperboone.nl'
@@ -126,7 +126,7 @@ class BookingTest extends TestCase
         $event = factory(Event::class)->create(['capacity' => 30]);
         factory(Booking::class, 30)->create(['event_id' => $event->id]);
 
-        $response = $this->postJson('/', [
+        $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
             'name' => 'Casper',
             'email' => 'booking@casperboone.nl'

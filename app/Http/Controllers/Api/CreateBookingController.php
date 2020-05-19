@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Booking;
+use App\Http\Controllers\Controller;
 use App\Rules\EventMustHaveCapacityLeft;
 use App\Rules\GuestCanOnlyHaveOneOpenBooking;
 use Illuminate\Http\Request;
