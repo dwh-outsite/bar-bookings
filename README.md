@@ -1,79 +1,71 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Bar Bookings
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+A timeslot booking system to offer a very simple booking functionality to our guests.
+This application is developed to comply with government regulations due to COVID-19.
 
-## About Laravel
+## Booking Flow and Rules
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The system is currently built around the following rules for bookings:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* All bookings are done invididually
+* A guest cannot make more than one booking for events in the future (fairness)
+* After an event has ended guests can make new bookings
+* Each event has a maximum capacity which cannot be exceeded
+* There is a very simple system to deal with race conditions based on database transactions, which has not been
+    thoroughly tested. We expect such a system to only really be relevant at system launch. If there are, despite the
+    mechanisms, any issues with race conditions at launch, it is perfectly feasible to sort these out manually.
+* A guest can cancel a booking. This immediately makes the spot available to others. The guest also has the ability to 
+    immediately make a new booking.
+* Bookings and cancelations are confirmed via e-mail. The booking confirmation serves as "proof" of the booking.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## API
 
-## Learning Laravel
+At the moment, two endpoints are available.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### GET /api/events
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Retrieve the available events.
 
-## Laravel Sponsors
+_(more details will follow soon)_
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### POST /api/bookings
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+Create a new booking.
 
-## Contributing
+_(more details will follow soon)_
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Getting Started and Usage
 
-## Code of Conduct
+_The application is using a simple Laravel setup with very little customization, follow [Laravel's getting started guide](https://laravel.com/docs/7.x/installation) for more details on how to set the application up._
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The application can be set up for local development using the built-in webserver, Laravel Valet, or any other tool of your preference.
 
-## Security Vulnerabilities
+All local configuration can be set up in a `.env` file, an example is provided.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+All database types that are supported by Laravel can be used.
+In production, MySQL is used.
+
+Front-end assets are generated using Laravel Mix (`npm run dev`).
+
+The repository is set up to auto-deploy. The contents of commits to master automatically end up on the production server.
+
+## Testing
+The application is equipped with tests. Please include tests in your contributions.
+
+Use the following command to run the tests.
+```
+$ php artisan test
+```
+
+## Security
+
+If you discover any security related issues, please email mail@casperboone.nl instead of using the issue tracker.
+
+## Credits
+
+- [Casper Boone](https://github.com/casperboone)
+- [All Contributors](../../contributors)
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
