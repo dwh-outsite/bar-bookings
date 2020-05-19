@@ -22,7 +22,7 @@ class EventMustHaveCapacityLeft implements Rule
             return false;
         }
 
-        return $event->capacity - $event->bookings()->lockForUpdate()->count() > 0;
+        return $event->capacity - $event->bookings()->active()->lockForUpdate()->count() > 0;
     }
 
     /**

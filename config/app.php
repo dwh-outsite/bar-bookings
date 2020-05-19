@@ -229,4 +229,5 @@ return [
 
     ],
 
+    'cancelation_redirect_url' => env('CANCELATION_REDIRECT_URL'),
 ];

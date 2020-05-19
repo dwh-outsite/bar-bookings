@@ -17,7 +17,7 @@ class Event extends Model
 
     public function availableSeats()
     {
-        return $this->capacity - $this->bookings()->count();
+        return $this->capacity - $this->bookings()->active()->count();
     }
 
     public function scopeEndDateInTheFuture($query)

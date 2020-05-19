@@ -88,6 +88,29 @@ class BookingTest extends TestCase
     }
 
     /** @test */
+    public function a_guest_can_make_a_booking_after_canceling_a_previous_booking()
+    {
+        $canceledBooking = factory(Booking::class)->create([
+            'status' => 'canceled',
+            'email' => 'booking@casperboone.nl',
+        ]);
+
+        $event = factory(Event::class)->create();
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl'
+        ]);
+
+        $response->assertSuccessful();
+        $newBooking = Booking::findOrFail(2);
+        $this->assertEquals('canceled', $canceledBooking->status);
+        $this->assertEquals('active', $newBooking->status);
+        Mail::assertQueued(BookingConfirmation::class);
+    }
+
+    /** @test */
     public function a_guest_cannot_make_two_bookings_for_the_same_event()
     {
         $event = factory(Event::class)->create();

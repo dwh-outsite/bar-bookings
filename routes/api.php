@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CancelBookingController;
 use App\Http\Controllers\Api\CreateBookingController;
 use App\Http\Controllers\Api\RetrieveEventsController;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +18,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/events', RetrieveEventsController::class);
 Route::post('/bookings', CreateBookingController::class);
-
+Route::get('/bookings/cancel/{token}', CancelBookingController::class)->name('api.bookings.cancel');
