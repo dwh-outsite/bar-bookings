@@ -30,6 +30,10 @@ class BookingConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.bookings.successful');
+        return $this
+            ->subject(
+                "Reserveringsbevestiging / Booking Confirmation - {$this->booking->event->name} ".
+                "[{$this->booking->event->start->format('d-m-Y H:i')}]")
+            ->markdown('emails.bookings.confirmation');
     }
 }

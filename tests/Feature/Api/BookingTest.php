@@ -193,9 +193,6 @@ class BookingTest extends TestCase
         $booking = Booking::findOrFail(1);
 
         Mail::assertQueued(BookingConfirmation::class, function (BookingConfirmation $mail) use ($booking) {
-//            $this->assertTrue();
-//            $this->assertEquals('LALALA', $mail->subject);
-//
             return $mail->booking->is($booking)
                 && $mail->hasTo('booking@casperboone.nl');
         });
