@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Mail\BookingCanceled;
 use App\Mail\BookingConfirmation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -25,12 +26,16 @@ class CancelBookingTest extends TestCase
     /** @test */
     public function a_guest_can_cancel_a_booking()
     {
-        $booking = factory(Booking::class)->create();
+        $booking = factory(Booking::class)->create(['email' => 'booking@casperboone.nl']);
 
         $response = $this->get($booking->cancelationUrl());
 
         $response->assertRedirect('https://company.com/canceled');
         $this->assertEquals('canceled', $booking->fresh()->status);
         $this->assertEquals($booking->event->capacity, $booking->event->availableSeats());
+        Mail::assertQueued(BookingCanceled::class, function (BookingCanceled $mail) use ($booking) {
+            return $mail->booking->is($booking)
+                && $mail->hasTo('booking@casperboone.nl');
+        });
     }
 }
