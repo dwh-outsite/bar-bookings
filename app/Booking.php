@@ -18,8 +18,8 @@ class Booking extends Model
 
     public function scopeEndDateInTheFuture(Builder $query)
     {
-        $query->whereHas('event', function (Builder $query) {
-            $query->where('end', '>', Carbon::now());
+        $query->whereHas('event', function (Builder $eventQuery) {
+            $eventQuery->endDateInTheFuture();
         });
     }
 }
