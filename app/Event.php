@@ -22,6 +22,11 @@ class Event extends Model
 
     public function scopeEndDateInTheFuture($query)
     {
-        $query->where('end', '>', Carbon::now());
+        $query->where('end', '>=', Carbon::now());
+    }
+
+    public function scopeEndDateInThePast($query)
+    {
+        $query->where('end', '<', Carbon::now());
     }
 }
