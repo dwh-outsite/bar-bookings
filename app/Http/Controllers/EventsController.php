@@ -27,7 +27,7 @@ class EventsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.events.form', ['title' => 'Create New Event']);
     }
 
     /**
@@ -38,7 +38,10 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $event = Event::create($this->validateEvent($request));
+
+        return redirect(route('admin.events.show', $event))
+            ->with('status', 'Event "'.$event->name.'" has been created.');
     }
 
     /**
@@ -60,7 +63,7 @@ class EventsController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return view('admin.events.form', ['title' => "Edit {$event->name}", 'event' => $event]);
     }
 
     /**
@@ -72,7 +75,10 @@ class EventsController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $event->update($this->validateEvent($request));
+
+        return redirect(route('admin.events.show', $event))
+            ->with('status', 'Event "'.$event->name.'" has been updated successfully.');
     }
 
     /**
@@ -83,6 +89,20 @@ class EventsController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        $event->bookings()->each(fn ($booking) => $booking->cancel());
+
+        $event->delete();
+
+        return redirect(route('admin.events.index'))
+            ->with('status', 'Event "'.$event->name.'" has been removed successfully. A cancelation e-mail will be sent to the bookers.');
+    }
+
+    private function validateEvent($request) {
+        return $request->validate([
+            'name' => 'required|string',
+            'capacity' => 'required|integer',
+            'start' => 'required|date|after:now',
+            'end' => 'required|date|after:start',
+        ]);
     }
 }

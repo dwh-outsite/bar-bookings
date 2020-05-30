@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Mail\BookingCanceled;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class Booking extends Model
 {
@@ -49,6 +51,8 @@ class Booking extends Model
     public function cancel()
     {
         $this->update(['status' => 'canceled']);
+
+        Mail::to($this->email)->queue(new BookingCanceled($this));
     }
 
     public function cancelationUrl()
