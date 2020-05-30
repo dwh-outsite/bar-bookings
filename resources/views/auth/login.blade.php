@@ -10,7 +10,7 @@
                         {{ __('Login') }}
                     </div>
 
-                    <form class="w-full p-6" method="POST" action="{{ route('admin.login') }}">
+                    <form class="w-full p-6" method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="flex flex-wrap mb-6">
@@ -53,16 +53,16 @@
                                 {{ __('Login') }}
                             </button>
 
-                            @if (Route::has('admin.password.request'))
-                                <a class="text-sm text-blue-500 hover:text-blue-700 whitespace-no-wrap no-underline ml-auto" href="{{ route('admin.password.request') }}">
+                            @if (Route::has('password.request'))
+                                <a class="text-sm text-blue-500 hover:text-blue-700 whitespace-no-wrap no-underline ml-auto" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             @endif
 
-                            @if (Route::has('admin.register'))
+                            @if (Route::has('register'))
                                 <p class="w-full text-xs text-center text-gray-700 mt-8 -mb-4">
                                     {{ __("Don't have an account?") }}
-                                    <a class="text-blue-500 hover:text-blue-700 no-underline" href="{{ route('admin.register') }}">
+                                    <a class="text-blue-500 hover:text-blue-700 no-underline" href="{{ route('register') }}">
                                         {{ __('Register') }}
                                     </a>
                                 </p>

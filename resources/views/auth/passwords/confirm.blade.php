@@ -10,7 +10,7 @@
                         {{ __('Confirm Password') }}
                     </div>
 
-                    <form class="w-full p-6" method="POST" action="{{ route('admin.password.confirm') }}">
+                    <form class="w-full p-6" method="POST" action="{{ route('password.confirm') }}">
                         @csrf
 
                         <p class="leading-normal">
@@ -37,7 +37,7 @@
                             </button>
 
                             @if (Route::has('password.request'))
-                                <a class="text-sm text-blue-500 hover:text-blue-700 whitespace-no-wrap no-underline ml-auto" href="{{ route('admin.password.request') }}">
+                                <a class="text-sm text-blue-500 hover:text-blue-700 whitespace-no-wrap no-underline ml-auto" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             @endif
