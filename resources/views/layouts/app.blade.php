@@ -21,7 +21,7 @@
             <div class="container mx-auto px-6 md:px-0">
                 <div class="flex items-center justify-center">
                     <div class="mr-6">
-                        <a href="{{ url('/') }}" class="text-lg font-semibold no-underline">
+                        <a href="{{ route('admin.home') }}" class="text-lg font-semibold no-underline">
                             {{ config('app.name', 'Laravel') }}
                         </a>
                     </div>

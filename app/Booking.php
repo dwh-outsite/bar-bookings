@@ -55,4 +55,14 @@ class Booking extends Model
     {
         return route('api.bookings.cancel', ['token' => $this->cancelation_token]);
     }
+
+    public function isCanceled()
+    {
+        return $this->status == 'canceled';
+    }
+
+    public function isActive()
+    {
+        return $this->status == 'active';
+    }
 }
