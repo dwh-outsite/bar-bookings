@@ -16,7 +16,7 @@
             </div>
 
             @if (session('status'))
-                <div class="text-sm border border-t-8 rounded text-green-700 border-green-600 bg-green-100 px-3 py-4 mb-4" role="alert">
+                <div class="text-sm shadow rounded text-white bg-green-500 px-3 py-4 mb-4" role="alert">
                     {{ session('status') }}
                 </div>
             @endif

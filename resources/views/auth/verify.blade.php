@@ -6,7 +6,7 @@
             <div class="w-full max-w-sm">
 
                 @if (session('resent'))
-                    <div class="text-sm border border-t-8 rounded text-green-700 border-green-600 bg-green-100  px-3 py-4 mb-4" role="alert">
+                    <div class="text-sm shadow rounded text-white bg-green-500 px-3 py-4 mb-4" role="alert">
                         {{ __('A fresh verification link has been sent to your email address.') }}
                     </div>
                 @endif
