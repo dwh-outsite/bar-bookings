@@ -6,12 +6,14 @@
 
     <div class="w-full">
         @forelse($events as $event)
-            <div class="text-gray-700 p-6 border-b flex hover:bg-purple-100">
-                <div class="w-32">
-                    {{ $event->start->format('d-m H:i') }}
+            <a href="{{ route('admin.events.show', $event) }}">
+                <div class="text-gray-700 p-6 border-b flex hover:bg-purple-100">
+                    <div class="w-32">
+                        {{ $event->start->format('d-m H:i') }}
+                    </div>
+                    {{ $event->name }}
                 </div>
-                {{ $event->name }}
-            </div>
+            </a>
         @empty
             <p class="text-gray-700 p-6 text-center">
                 There are no events yet.
