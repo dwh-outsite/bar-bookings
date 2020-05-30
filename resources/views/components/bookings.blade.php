@@ -6,13 +6,22 @@
 
     <div class="w-full">
         @forelse($bookings->sortBy->name as $booking)
-            <div class="p-6 border-b flex hover:bg-purple-100">
+            <div class="p-6 border-b flex items-center hover:bg-purple-100">
                 <div class="w-2/6">{{ $booking->name }}</div>
                 <div class="text-gray-700 w-2/6">{{ $booking->email }}</div>
                 <div class="text-gray-700 w-1/6">{{ $booking->created_at->format('d-m-Y H:i:s') }}</div>
                 <div class="w-1/6 text-right">
                     @if($booking->isActive())
-                        Cancel
+                        <form
+                            action="{{ route('admin.bookings.destroy', $booking) }}"
+                            method="POST"
+                            onsubmit="return confirm('Do you really want to cancel the booking of {{ $booking->name }}? NOTE: The guest will receive a cancelation confirmation by e-mail.');"
+                        >
+                            @method('delete')
+                            @csrf
+
+                            <button class="text-red-300 hover:text-red-500">Cancel</button>
+                        </form>
                     @endif
                 </div>
             </div>
