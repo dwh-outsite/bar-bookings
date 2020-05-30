@@ -53,16 +53,16 @@
                                 {{ __('Login') }}
                             </button>
 
-                            @if (Route::has('password.request'))
-                                <a class="text-sm text-blue-500 hover:text-blue-700 whitespace-no-wrap no-underline ml-auto" href="{{ route('password.request') }}">
+                            @if (Route::has('admin.password.request'))
+                                <a class="text-sm text-blue-500 hover:text-blue-700 whitespace-no-wrap no-underline ml-auto" href="{{ route('admin.password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             @endif
 
-                            @if (Route::has('register'))
+                            @if (Route::has('admin.register'))
                                 <p class="w-full text-xs text-center text-gray-700 mt-8 -mb-4">
                                     {{ __("Don't have an account?") }}
-                                    <a class="text-blue-500 hover:text-blue-700 no-underline" href="{{ route('register') }}">
+                                    <a class="text-blue-500 hover:text-blue-700 no-underline" href="{{ route('admin.register') }}">
                                         {{ __('Register') }}
                                     </a>
                                 </p>

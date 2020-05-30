@@ -10,4 +10,3 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('events', EventsController::class);
 });
-
