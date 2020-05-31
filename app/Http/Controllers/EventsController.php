@@ -101,6 +101,7 @@ class EventsController extends Controller
         return $request->validate([
             'name' => 'required|string',
             'capacity' => 'required|integer',
+            'twoseat_capacity' => 'required|integer',
             'start' => 'required|date|after:now',
             'end' => 'required|date|after:start',
         ]);

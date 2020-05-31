@@ -24,7 +24,7 @@
                         {{ __('Name') }}:
                     </label>
 
-                    <input id="name" type="text" class="form-input w-full @error('name') border-red-500 @enderror" name="name" value="{{ $event->name ?? old('name') }}" required>
+                    <input id="name" type="text" class="form-input w-full @error('name') border-red-500 @enderror" name="name" value="{{ old('name', $event->name ?? null) }}" required>
 
                     @error('name')
                     <p class="text-red-500 text-xs italic mt-4">
@@ -34,13 +34,28 @@
                 </div>
 
                 <div class="flex flex-wrap mb-6">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">
-                        {{ __('Capacity') }}:
+                    <label for="capacity" class="block text-gray-700 text-sm font-bold mb-2">
+                        {{ __('Booking Capacity') }}:
                     </label>
 
-                    <input id="capacity" type="number" class="form-input w-full @error('capacity') border-red-500 @enderror" name="capacity" value="{{ $event->capacity ?? old('capacity') }}" required>
+                    <input id="capacity" type="number" class="form-input w-full @error('capacity') border-red-500 @enderror" name="capacity" value="{{ old('capacity', $event->capacity ?? null)  }}" required>
 
                     @error('capacity')
+                    <p class="text-red-500 text-xs italic mt-4">
+                        {{ $message }}
+                    </p>
+                    @enderror
+                </div>
+
+                <div class="flex flex-wrap mb-6">
+                    <label for="twoseat_capacity" class="block text-gray-700 text-sm mb-2 flex w-full">
+                        <strong class="flex-1">{{ __('Two-Seats Capacity') }}:</strong>
+                        (the amount of bookings that can be two-seat bookings)
+                    </label>
+
+                    <input id="capacity" type="number" class="form-input w-full @error('twoseat_capacity') border-red-500 @enderror" name="twoseat_capacity" value="{{ old('twoseat_capacity', $event->twoseat_capacity ?? null) }}" required>
+
+                    @error('twoseat_capacity')
                     <p class="text-red-500 text-xs italic mt-4">
                         {{ $message }}
                     </p>
@@ -52,7 +67,7 @@
                         {{ __('Start') }}:
                     </label>
 
-                    <input id="start" type="datetime-local" class="form-input w-full @error('start') border-red-500 @enderror" name="start" value="{{ isset($event) ? $event->start->format('Y-m-d\TH:i') : old('start') }}" required>
+                    <input id="start" type="datetime-local" class="form-input w-full @error('start') border-red-500 @enderror" name="start" value="{{  old('start', isset($event) ? $event->start->format('Y-m-d\TH:i') : null) }}" required>
 
                     @error('start')
                     <p class="text-red-500 text-xs italic mt-4">
@@ -66,7 +81,7 @@
                         {{ __('End') }}:
                     </label>
 
-                    <input id="end" type="datetime-local" class="form-input w-full @error('end') border-red-500 @enderror" name="end" value="{{ isset($event) ? $event->end->format('Y-m-d\TH:i') : old('end')}}" required>
+                    <input id="end" type="datetime-local" class="form-input w-full @error('end') border-red-500 @enderror" name="end" value="{{ old('end', isset($event) ? $event->end->format('Y-m-d\TH:i') : null)}}" required>
 
                     @error('end')
                     <p class="text-red-500 text-xs italic mt-4">

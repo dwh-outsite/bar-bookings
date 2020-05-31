@@ -3,9 +3,15 @@
 
 Je hebt gereserveerd voor **{{ $booking->event->name }}** op **{{ $booking->event->start->format('d-m-Y')  }}** om
 **{{ $booking->event->start->format('H:i')  }}** uur.
+@if($booking->twoseat)
+Je hebt aangegeven dat je met **twee personen** komt en dat jullie samen binnen 1,5 meter mogen zijn.
+@elseif
 
 You succesfully made a booking for **{{ $booking->event->name }}** on **{{ $booking->event->start->format('d-m-Y')  }}**
 at **{{ $booking->event->start->format('H:i')  }}** uur.
+@if($booking->twoseat)
+You have indicated that you are coming with **two person** and that you are allowed to be together within 1.5 meter.
+@elseif
 
 @component('mail::panel')
 

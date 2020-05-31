@@ -7,7 +7,14 @@
     <div class="w-full">
         @forelse($bookings->sortBy->name as $booking)
             <div class="p-6 border-b flex items-center hover:bg-purple-100">
-                <div class="w-2/6">{{ $booking->name }}</div>
+                <div class="w-2/6 flex items-center">
+                    {{ $booking->name }}
+                    @if($booking->twoseat)
+                        <div class="bg-orange-200 px-2 py-1 rounded-full uppercase tracking-wide text-xs ml-2 font-semibold">
+                            two-seat
+                        </div>
+                    @endif
+                </div>
                 <div class="text-gray-700 w-2/6">{{ $booking->email }}</div>
                 <div class="text-gray-700 w-1/6">{{ $booking->created_at->format('d-m-Y H:i:s') }}</div>
                 <div class="w-1/6 text-right">
