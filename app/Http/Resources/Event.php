@@ -19,6 +19,7 @@ class Event extends JsonResource
             'name' => $this->name,
             'capacity' => $this->capacity,
             'available_seats' => $this->availableSeats(),
+            'available_twoseats' => $this->availableTwoseats(),
             'start' => $this->start,
             'end' => $this->end,
             'created_at' => $this->created_at,

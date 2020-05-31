@@ -38,6 +38,29 @@ class BookingTest extends TestCase
         $this->assertTrue($event->is($booking->event));
         $this->assertEquals('Casper', $booking->name);
         $this->assertEquals('booking@casperboone.nl', $booking->email);
+        $this->assertFalse($booking->twoseat);
+        Mail::assertQueued(BookingConfirmation::class);
+    }
+
+    /** @test */
+    public function a_guest_can_make_a_twoseat_booking()
+    {
+        $this->withoutExceptionHandling();
+
+        $event = factory(Event::class)->create(['capacity' => 10, 'twoseat_capacity' => 4]);
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'twoseat' => true,
+        ]);
+
+        $response->assertSuccessful();
+        $booking = Booking::findOrFail(1);
+        $this->assertTrue($booking->twoseat);
+        $this->assertEquals(9, $event->availableSeats());
+        $this->assertEquals(3, $event->availableTwoseats());
         Mail::assertQueued(BookingConfirmation::class);
     }
 
@@ -173,6 +196,51 @@ class BookingTest extends TestCase
         $this->assertEquals(30, Booking::count());
         $this->assertFalse(Booking::where('email', 'booking@casperboone.nl')->exists());
         Mail::assertNothingQueued();
+    }
+
+
+    /** @test */
+    public function a_guest_cannot_make_a_twoseat_booking_if_all_twoseats_are_booked()
+    {
+        $event = factory(Event::class)->create(['capacity' => 3, 'twoseat_capacity' => 2]);
+        factory(Booking::class, 2)->create(['event_id' => $event->id, 'twoseat' => true]);
+
+        $this->assertEquals(1, $event->availableSeats());
+        $this->assertEquals(0, $event->availableTwoseats());
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'twoseat' => true,
+        ]);
+
+        $response->assertStatus(422);
+        $this->assertFalse(Booking::where('email', 'booking@casperboone.nl')->exists());
+        $this->assertEquals(1, $event->availableSeats());
+        $this->assertEquals(0, $event->availableTwoseats());
+    }
+
+    /** @test */
+    public function a_guest_can_make_a_regular_booking_if_all_twoseats_are_booked()
+    {
+        $event = factory(Event::class)->create(['capacity' => 3, 'twoseat_capacity' => 2]);
+        factory(Booking::class, 2)->create(['event_id' => $event->id, 'twoseat' => true]);
+
+        $this->assertEquals(1, $event->availableSeats());
+        $this->assertEquals(0, $event->availableTwoseats());
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'twoseat' => false,
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertTrue(Booking::where('email', 'booking@casperboone.nl')->exists());
+        $this->assertEquals(0, $event->availableSeats());
+        $this->assertEquals(0, $event->availableTwoseats());
     }
 
     /** @test */

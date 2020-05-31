@@ -32,6 +32,6 @@ class EventMustHaveCapacityLeft implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'There are no seats available for this event anymore.';
     }
 }

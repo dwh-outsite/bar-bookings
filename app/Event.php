@@ -23,6 +23,11 @@ class Event extends Model
         return $this->capacity - $this->bookings()->active()->count();
     }
 
+    public function availableTwoseats()
+    {
+        return $this->twoseat_capacity - $this->bookings()->twoseat()->active()->count();
+    }
+
     public function scopeEndDateInTheFuture($query)
     {
         $query->where('end', '>=', Carbon::now());

@@ -28,6 +28,7 @@ class EventsTest extends TestCase
                 'name' => $event->name,
                 'capacity' => $event->capacity,
                 'available_seats' => $event->capacity,
+                'available_twoseats' => $event->twoseat_capacity,
                 'start' => $event->start->toJSON(),
                 'end' => $event->end->toJSON(),
                 'created_at' => $event->created_at->toJSON(),

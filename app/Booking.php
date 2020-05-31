@@ -12,6 +12,9 @@ class Booking extends Model
 {
     protected $guarded = [];
     protected $with = ['event'];
+    protected $casts = [
+        'twoseat' => 'boolean',
+    ];
 
     protected $attributes = [
         'status' => 'active',
@@ -46,6 +49,11 @@ class Booking extends Model
     public function scopeActive(Builder $query)
     {
         $query->where('status', 'active');
+    }
+
+    public function scopeTwoseat(Builder $query)
+    {
+        $query->where('twoseat', true);
     }
 
     public function cancel()
