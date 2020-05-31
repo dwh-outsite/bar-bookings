@@ -12,3 +12,15 @@ $factory->define(Booking::class, function (Faker $faker) {
         'event_id' => fn () => factory(\App\Event::class)->create()->id,
     ];
 });
+
+$factory->state(Booking::class, 'canceled', function (Faker $faker) {
+    return [
+        'status' => 'canceled',
+    ];
+});
+
+$factory->state(Booking::class, 'twoseat', function (Faker $faker) {
+    return [
+        'twoseat' => true,
+    ];
+});
