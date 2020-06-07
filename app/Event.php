@@ -28,9 +28,9 @@ class Event extends Model
         return $this->twoseat_capacity - $this->bookings()->twoseat()->active()->count();
     }
 
-    public function scopeEndDateInTheFuture($query)
+    public function scopeEndDateInTheFuture($query, $includedPastHours = 0)
     {
-        $query->where('end', '>=', Carbon::now());
+        $query->where('end', '>=', Carbon::now()->subHours($includedPastHours));
     }
 
     public function scopeEndDateInThePast($query)

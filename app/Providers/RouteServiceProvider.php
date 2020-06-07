@@ -38,6 +38,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
 
         $this->mapAdminRoutes();
+
+        $this->mapBarRoutes();
     }
 
     /**
@@ -65,6 +67,20 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->prefix('admin')
             ->group(base_path('routes/admin.php'));
+    }
+
+    /**
+     * Define the "bar" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapBarRoutes()
+    {
+        Route::middleware('web')
+            ->prefix('bar')
+            ->group(base_path('routes/bar.php'));
     }
 
     /**
