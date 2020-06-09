@@ -230,4 +230,6 @@ return [
     ],
 
     'cancelation_redirect_url' => env('CANCELATION_REDIRECT_URL'),
+
+    'bar_area_token' => env('BAR_AREA_TOKEN'),
 ];
