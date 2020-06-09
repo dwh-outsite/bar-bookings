@@ -5,7 +5,7 @@
 
         <div class="flex items-center mt-6 mb-12">
             <h1 class="flex-1 text-4xl font-light">
-                Events
+                Choose Event
             </h1>
         </div>
 
