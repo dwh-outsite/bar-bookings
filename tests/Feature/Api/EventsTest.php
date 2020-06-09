@@ -62,7 +62,7 @@ class EventsTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertJsonCount(10, 'data');
-        $this->assertApiResponseContains($response, $futureEvents->sortBy('start'), function ($event) {
+        $this->assertApiResponseContains($response, $futureEvents, function ($event) {
             return ['id' => $event->id];
         });
         $this->assertApiResponseNotContains($response, $pastEvents, function ($event) {
