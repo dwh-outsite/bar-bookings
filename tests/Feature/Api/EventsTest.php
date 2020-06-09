@@ -62,7 +62,7 @@ class EventsTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertJsonCount(10, 'data');
-        $this->assertApiResponseContains($response, $futureEvents, function ($event) {
+        $this->assertApiResponseContains($response, $futureEvents->sortBy('start'), function ($event) {
             return ['id' => $event->id];
         });
         $this->assertApiResponseNotContains($response, $pastEvents, function ($event) {
@@ -86,7 +86,9 @@ class EventsTest extends TestCase
 
     private function assertApiResponseContains($response, $collection, $mapping)
     {
-        $response->assertJson(['data' => $collection->map($mapping)->toArray()]);
+        $compare = Event::query()->whereIn('id', $collection->map->id)->orderBy('start')->get();
+
+        $response->assertJson(['data' => $compare->map($mapping)->toArray()]);
     }
 
     private function assertApiResponseNotContains($response, $collection, $mapping)
