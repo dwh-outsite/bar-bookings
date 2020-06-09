@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <x-events title="Select an event to view its bookings" :events="$futureEvents" />
+        <x-events title="Select an event to view its bookings" :events="$futureEvents" area="bar" />
 
     </div>
 @endsection

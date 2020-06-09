@@ -1,7 +1,16 @@
 @extends('layouts.bar')
 
+@section('nav-left')
+    <a href="{{ route('bar.events.index') }}">
+        <div class="flex items-center">
+            <x-heroicon-o-arrow-left class="w-5 h-5 mr-2" />
+            <span class="uppercase tracking-wide text-sm font-semibold">Go back to events overview</span>
+        </div>
+    </a>
+@endsection
+
 @section('content')
-    <div>
+    <div class="h-full flex flex-col overflow-hidden">
 
         <div class="flex items-center mt-6">
             <h1 class="flex-1 text-4xl font-light">
@@ -22,7 +31,16 @@
             {{ $event->end->format('d-m-Y H:i') }}
         </p>
 
-        <x-interactive-bookings title="Active Bookings" :bookings="$event->bookings->filter->isActive()" />
-        <x-interactive-bookings title="Canceled Bookings" :bookings="$event->bookings->filter->isCanceled()" />
+        <div class="flex-1 mb-6 flex h-full">
+            <div class="w-1/2 pr-2 h-full">
+                <livewire:interactive-bookings title="Open Bookings" :bookings="$event->bookings" :filter-active="true" :filter-present="false" />
+            </div>
+            <div class="w-1/2 pl-2 h-full flex flex-col">
+                <livewire:interactive-bookings title="Present Bookings" :bookings="$event->bookings" :filter-active="true" :filter-present="true" />
+                <div class="pt-6"></div>
+                <livewire:interactive-bookings title="Canceled Bookings" :bookings="$event->bookings" :filter-active="false" />
+            </div>
+        </div>
+
     </div>
 @endsection

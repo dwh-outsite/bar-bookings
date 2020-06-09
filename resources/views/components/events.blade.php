@@ -6,7 +6,7 @@
 
     <div class="w-full">
         @forelse($events as $event)
-            <a href="{{ route('admin.events.show', $event) }}">
+            <a href="{{ route($area.'.events.show', $event) }}">
                 <div class="p-6 border-b flex hover:bg-purple-100">
                     <div class="text-gray-700 w-32">
                         {{ $event->start->format('d-m H:i') }}

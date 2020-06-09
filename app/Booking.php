@@ -56,6 +56,16 @@ class Booking extends Model
         $query->where('twoseat', true);
     }
 
+    public function markAsPresent()
+    {
+        $this->update(['present' => Carbon::now()]);
+    }
+
+    public function unmarkAsPresent()
+    {
+        $this->update(['present' => null]);
+    }
+
     public function cancel()
     {
         $this->update(['status' => 'canceled']);

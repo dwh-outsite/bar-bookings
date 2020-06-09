@@ -14,31 +14,41 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
+    @livewireStyles
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 </head>
 <body class="bg-gray-100 h-screen antialiased leading-none">
-    <div id="app">
-        <nav class="bg-purple-500 text-gray-100 shadow py-6">
-            <div class="container mx-auto px-6 md:px-0">
-                <div class="flex items-center justify-center">
-                    <a href="{{ route('admin.home') }}" class="text-lg font-semibold no-underline">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
+    <div id="app" class="h-full flex flex-col">
+        <nav class="bg-purple-500 text-gray-100 shadow py-6 px-12">
+            <div class="flex items-center justify-center">
+                <div class="flex-1">
+                    @yield('nav-left')
+                </div>
+                <a href="{{ route('admin.home') }}" class="text-lg font-semibold no-underline">
+                    {{ config('app.name', 'Laravel') }}
+                </a>
+                <div class="flex-1">
+                    @yield('nav-right')
                 </div>
             </div>
         </nav>
 
-        <div class="flex">
-            <div class="w-3/5">
-                <div class="pl-12 pt-8 pr-6">
+        <div class="flex-1 flex">
+            <div class="w-2/3 h-full">
+                <div class="px-12 pt-8 h-full">
                     @yield('content')
                 </div>
             </div>
-            <div class="w-2/5 border-l-8 border-purple-500 bg-purple-100">
-                <div class="pl-6 pt-8 pr-12">
+            <div class="w-1/3 border-l-8 border-purple-500 bg-purple-100 h-full">
+                <div class="px-12 pt-8 h-full">
                     @include('bar.health-check')
                 </div>
             </div>
         </div>
     </div>
+
+    @livewireScripts
 </body>
 </html>
