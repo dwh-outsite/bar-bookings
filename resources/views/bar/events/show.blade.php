@@ -33,12 +33,12 @@
 
         <div class="flex-1 mb-6 flex h-full">
             <div class="w-1/2 pr-2 h-full">
-                <livewire:interactive-bookings title="Open Bookings" :bookings="$event->bookings" :filter-active="true" :filter-present="false" />
+                <livewire:interactive-bookings title="Open Bookings" :event="$event" :filter-active="true" :filter-present="false" />
             </div>
             <div class="w-1/2 pl-2 h-full flex flex-col">
-                <livewire:interactive-bookings title="Present Bookings" :bookings="$event->bookings" :filter-active="true" :filter-present="true" />
+                <livewire:interactive-bookings title="Present Bookings" :event="$event" :filter-active="true" :filter-present="true" />
                 <div class="pt-6"></div>
-                <livewire:interactive-bookings title="Canceled Bookings" :bookings="$event->bookings" :filter-active="false" />
+                <livewire:interactive-bookings title="Canceled Bookings" :event="$event" :filter-active="false" />
             </div>
         </div>
 

@@ -8,7 +8,7 @@ use Livewire\Component;
 class InteractiveBookings extends Component
 {
     public $title;
-    public $bookings;
+    public $event;
     public $filterActive;
     public $filterPresent;
 
@@ -16,31 +16,31 @@ class InteractiveBookings extends Component
         'booking-changed' => '$refresh'
     ];
 
-    public function mount($title, $bookings, $filterActive = null, $filterPresent = null)
+    public function mount($title, $event, $filterActive = null, $filterPresent = null)
     {
         $this->title = $title;
-        $this->bookings = $bookings;
+        $this->event = $event;
         $this->filterActive = $filterActive;
         $this->filterPresent = $filterPresent;
     }
 
     public function markAsPresent($id)
     {
-        $this->bookings->find($id)->markAsPresent();
+        Booking::find($id)->markAsPresent();
 
         $this->emit('booking-changed');
     }
 
     public function unmarkAsPresent($id)
     {
-        $this->bookings->find($id)->unmarkAsPresent();
+        Booking::find($id)->unmarkAsPresent();
 
         $this->emit('booking-changed');
     }
 
     public function render()
     {
-        $visibleBookings = $this->bookings
+        $visibleBookings = $this->event->bookings()->get()
             ->filter(fn($booking) => is_null($this->filterActive) || $this->filterActive == $booking->isActive())
             ->filter(fn($booking) => is_null($this->filterPresent) || $this->filterPresent == (boolean)$booking->present);
 
