@@ -157,7 +157,7 @@ class BookingTest extends TestCase
     }
 
     /** @test */
-    public function a_guest_cannot_make_two_bookings_for_two_different_events_in_the_future()
+    public function a_guest_can_make_two_bookings_for_two_different_events_in_the_future()
     {
         $eventA = factory(Event::class)->create();
         $eventB = factory(Event::class)->create();
@@ -170,14 +170,14 @@ class BookingTest extends TestCase
 
         $responseB = $this->postJson('/api/bookings', [
             'event_id' => $eventB->id,
-            'name' => 'Not Casper',
+            'name' => 'Also Casper',
             'email' => 'booking@casperboone.nl'
         ]);
 
         $responseA->assertSuccessful();
-        $responseB->assertStatus(422);
-        $this->assertEquals(1, Booking::count());
-        Mail::assertQueued(BookingConfirmation::class, 1);
+        $responseB->assertSuccessful();
+        $this->assertEquals(2, Booking::count());
+        Mail::assertQueued(BookingConfirmation::class, 2);
     }
 
     /** @test */

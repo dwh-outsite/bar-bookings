@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\BookingConfirmation;
 use App\Rules\EventMustHaveCapacityLeft;
 use App\Rules\EventMustHaveTwoseatCapacityLeft;
-use App\Rules\GuestCanOnlyHaveOneOpenBooking;
+use App\Rules\GuestCanOnlyHaveOneOpenBookingPerEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -20,8 +20,8 @@ class CreateBookingController extends Controller
 
             $booking = Booking::create($request->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'email', 'max:255', new GuestCanOnlyHaveOneOpenBooking],
                 'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft],
+                'email' => ['required', 'email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($request->event_id)],
                 'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($request->event_id)],
             ]));
 
