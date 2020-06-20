@@ -2,19 +2,19 @@
 
 @tailwind components;
 
-::-webkit-scrollbar {
+.touch-scrollbar ::-webkit-scrollbar {
     @apply w-12
 }
 
-::-webkit-scrollbar-track {
+.touch-scrollbar ::-webkit-scrollbar-track {
     @apply bg-purple-100
 }
 
-::-webkit-scrollbar-thumb {
+.touch-scrollbar ::-webkit-scrollbar-thumb {
     @apply bg-purple-200 rounded-md
 }
 
-::-webkit-scrollbar-thumb:hover {
+.touch-scrollbar ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
 

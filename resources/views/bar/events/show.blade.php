@@ -31,7 +31,7 @@
             {{ $event->end->format('d-m-Y H:i') }}
         </p>
 
-        <div class="flex-1 mb-6 flex h-full">
+        <div class="flex-1 mb-6 flex h-full touch-scrollbar">
             <div class="w-1/2 pr-2 h-full">
                 <livewire:interactive-bookings title="Open Bookings" :event="$event" :filter-active="true" :filter-present="false" />
             </div>
