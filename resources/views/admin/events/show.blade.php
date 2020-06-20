@@ -21,7 +21,7 @@
         @endif
 
         <div class="break-words bg-white border border-2 rounded p-6 shadow-md mb-6 text-gray-700">
-            <div class="flex items-center">
+            <div class="md:flex items-center">
                 <div class="flex-1 flex leading-loose">
                     <div class="font-bold mr-4">
                         Start<br />
@@ -32,8 +32,8 @@
                         {{ $event->end->format('d-m-Y H:i') }}
                     </div>
                 </div>
-                <div class="flex">
-                    <div class="border border-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide mr-4">
+                <div class="md:flex">
+                    <div class="border border-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide md:mr-4 my-4 md:my-0">
                         <strong>{{ $event->twoseat_capacity - $event->availableTwoseats()  }} / {{ $event->twoseat_capacity }}</strong> two-seats
                     </div>
                     <div class="bg-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide">

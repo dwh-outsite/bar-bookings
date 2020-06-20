@@ -6,8 +6,8 @@
 
     <div class="w-full">
         @forelse($bookings->sortBy->name as $booking)
-            <div class="p-6 border-b flex items-center hover:bg-purple-100">
-                <div class="w-2/6 flex items-center">
+            <div class="p-6 pb-4 border-b md:flex items-center hover:bg-purple-100">
+                <div class="md:w-2/6 flex items-center mb-2">
                     {{ $booking->name }}
                     @if($booking->twoseat)
                         <div class="bg-orange-200 px-2 py-1 rounded-full uppercase tracking-wide text-xs ml-2 font-semibold">
@@ -15,9 +15,9 @@
                         </div>
                     @endif
                 </div>
-                <div class="text-gray-700 w-2/6">{{ $booking->email }}</div>
-                <div class="text-gray-700 w-1/6">{{ $booking->created_at->format('d-m-Y H:i:s') }}</div>
-                <div class="w-1/6 text-right">
+                <div class="text-gray-700 md:w-2/6 mb-2">{{ $booking->email }}</div>
+                <div class="text-gray-700 md:w-1/6 mb-2">{{ $booking->created_at->format('d-m-Y H:i:s') }}</div>
+                <div class="md:w-1/6 md:text-right mb-2">
                     @if($booking->isActive())
                         <form
                             action="{{ route('admin.bookings.destroy', $booking) }}"

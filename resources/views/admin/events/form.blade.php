@@ -48,9 +48,9 @@
                 </div>
 
                 <div class="flex flex-wrap mb-6">
-                    <label for="twoseat_capacity" class="block text-gray-700 text-sm mb-2 flex w-full">
+                    <label for="twoseat_capacity" class="block text-gray-700 text-sm mb-2 md:flex w-full">
                         <strong class="flex-1">{{ __('Two-Seats Capacity') }}:</strong>
-                        (the amount of bookings that can be two-seat bookings)
+                        <div>(the amount of bookings that can be two-seat bookings)</div>
                     </label>
 
                     <input id="capacity" type="number" class="form-input w-full @error('twoseat_capacity') border-red-500 @enderror" name="twoseat_capacity" value="{{ old('twoseat_capacity', $event->twoseat_capacity ?? null) }}" required>
