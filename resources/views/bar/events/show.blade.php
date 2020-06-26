@@ -32,11 +32,14 @@
         </p>
 
         <div class="flex-1 mb-6 flex h-full touch-scrollbar">
-            <div class="w-1/2 pr-2 h-full">
+            <div class="w-1/3 pr-2 h-full">
                 <livewire:interactive-bookings title="Open Bookings" :event="$event" :filter-active="true" :filter-present="false" />
             </div>
-            <div class="w-1/2 pl-2 h-full flex flex-col">
+            <div class="w-1/3 px-2 h-full">
                 <livewire:interactive-bookings title="Present Bookings" :event="$event" :filter-active="true" :filter-present="true" />
+            </div>
+            <div class="w-1/3 pl-2 h-full flex flex-col">
+                <livewire:create-booking :event="$event" />
                 <div class="pt-6"></div>
                 <livewire:interactive-bookings title="Canceled Bookings" :event="$event" :filter-active="false" />
             </div>

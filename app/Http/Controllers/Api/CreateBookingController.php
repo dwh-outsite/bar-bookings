@@ -18,12 +18,7 @@ class CreateBookingController extends Controller
     {
         return DB::transaction(function () use ($request) {
 
-            $booking = Booking::create($request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft],
-                'email' => ['required', 'email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($request->event_id)],
-                'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($request->event_id)],
-            ]));
+            $booking = Booking::create($request->validate(Booking::rules($request->event_id)));
 
             Mail::to($booking->email)->queue(new BookingConfirmation($booking));
 

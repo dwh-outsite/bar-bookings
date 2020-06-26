@@ -35,17 +35,8 @@
             </div>
         </nav>
 
-        <div class="flex-1 flex">
-            <div class="w-2/3 h-full">
-                <div class="px-12 pt-8 h-full">
-                    @yield('content')
-                </div>
-            </div>
-            <div class="w-1/3 border-l-8 border-purple-500 bg-purple-100 h-full">
-                <div class="px-12 pt-8 h-full">
-                    @include('bar.health-check')
-                </div>
-            </div>
+        <div class="flex-1 px-12 pt-8 ">
+            @yield('content')
         </div>
     </div>
 
