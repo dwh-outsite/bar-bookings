@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 
 class Booking extends Model
 {
@@ -17,6 +18,7 @@ class Booking extends Model
     protected $with = ['event'];
     protected $casts = [
         'twoseat' => 'boolean',
+        'custom_fields' => 'array',
     ];
 
     protected $attributes = [
@@ -34,12 +36,20 @@ class Booking extends Model
 
     public static function rules($eventId, $emailRequired = true)
     {
-        return [
+        $event = Event::find($eventId);
+
+        if ($event == null) {
+            throw ValidationException::withMessages([
+                'event_id' => ['This event does not exist'],
+            ]);
+        }
+
+        return array_merge([
             'name' => ['required', 'string', 'max:255'],
             'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft],
             'email' => $emailRequired ? ['required', 'email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)] : [],
             'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($eventId)],
-        ];
+        ], $event->eventType->customFieldsValidationRules('custom_fields'));
     }
 
     public static function generateCancelationToken()
