@@ -20,6 +20,29 @@
                 @csrf
 
                 <div class="flex flex-wrap mb-6">
+                    <label for="event_type_id" class="block text-gray-700 text-sm font-bold mb-2">
+                        {{ __('Event Type') }}:
+                    </label>
+
+                    <select id="event_type_id" class="form-input w-full @error('name') border-red-500 @enderror" name="event_type_id" value="{{ old('event_type_id', $event->event_type_id ?? null) }}" required>
+                        @foreach ($eventTypes as $eventType)
+                            <option
+                                value="{{ $eventType->id }}"
+                                @if(old('event_type_id', $event->event_type_id ?? null) === $eventType->id) selected @endif
+                            >
+                                {{ $eventType->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('event_type_id')
+                    <p class="text-red-500 text-xs italic mt-4">
+                        {{ $message }}
+                    </p>
+                    @enderror
+                </div>
+
+                <div class="flex flex-wrap mb-6">
                     <label for="name" class="block text-gray-700 text-sm font-bold mb-2">
                         {{ __('Name') }}:
                     </label>

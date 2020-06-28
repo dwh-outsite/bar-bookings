@@ -2,11 +2,14 @@
 
 namespace App;
 
+use App\View\Widgets\DinnerStatistics;
 use Illuminate\Support\Collection;
 
 class EventType extends SushiModel
 {
     protected $guarded = [];
+
+    protected $keyType = 'string';
 
     protected $casts = [
         'custom_fields' => 'array',
@@ -16,11 +19,13 @@ class EventType extends SushiModel
         [
             'id' => 'bar',
             'name' => 'Bar',
+            'widget' => null,
             'custom_fields' => [],
         ],
         [
             'id' => 'dinner',
             'name' => 'Dinner',
+            'widget' => DinnerStatistics::class,
             'custom_fields' => [
                 'team' => [
                     'type' => 'string',
@@ -37,6 +42,16 @@ class EventType extends SushiModel
     public static function default()
     {
         return static::first();
+    }
+
+    public function hasWidget()
+    {
+        return !is_null($this->widget);
+    }
+
+    public function widget($event)
+    {
+        return new $this->widget($event);
     }
 
     public function customFieldNames()

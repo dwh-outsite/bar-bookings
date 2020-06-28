@@ -14,7 +14,7 @@
                         </div>
                         <div class="text-gray-900">{{ $event->name }}</div>
                     </div>
-                    <div class="text-gray-600">{{ $event->availableSeats() }} / {{ $event->capacity }}</div>
+                    <div class="text-gray-600">{{ $event->capacity - $event->availableSeats() }} / {{ $event->capacity }}</div>
                 </div>
             </a>
         @empty
