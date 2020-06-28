@@ -14,7 +14,7 @@ class AddCustomFieldsToBookings extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->json('custom_fields')->default('{}')->before('created_at');
+            $table->json('custom_fields')->nullable()->before('created_at');
         });
     }
 
