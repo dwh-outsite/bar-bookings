@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Mail\BookingConfirmation;
+use Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -264,5 +265,99 @@ class BookingTest extends TestCase
             return $mail->booking->is($booking)
                 && $mail->hasTo('booking@casperboone.nl');
         });
+    }
+
+    /** @test */
+    public function a_guest_can_make_a_booking_with_custom_fields()
+    {
+        $this->withoutExceptionHandling();
+
+        $event = factory(Event::class)->create([
+            'event_type_id' => 'dinner',
+        ]);
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'custom_fields' => [
+                'diet' => ['Meat', 'Fish'],
+                'team' => 'Cooking',
+            ]
+        ]);
+
+        $response->assertSuccessful();
+
+        $booking = Booking::findOrFail(1);
+
+        $this->assertEquals(['Meat', 'Fish'], $booking->custom_fields['diet']);
+        $this->assertEquals('Cooking', $booking->custom_fields['team']);
+    }
+
+    /** @test */
+    public function a_guest_cannot_make_a_booking_with_invalid_or_missing_custom_fields()
+    {
+        $event = factory(Event::class)->create([
+            'event_type_id' => 'dinner',
+        ]);
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'custom_fields' => [
+                'diet' => 'should be an array',
+                'team' => 'Cooking',
+            ]
+        ]);
+
+        $response->assertStatus(422);
+
+        $this->assertEquals(0, Booking::count());
+    }
+
+    /** @test */
+    public function a_guest_can_make_a_booking_with_extra_custom_fields_but_those_are_filtered()
+    {
+        $event = factory(Event::class)->create([
+            'event_type_id' => 'dinner',
+        ]);
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'custom_fields' => [
+                'diet' => [],
+                'team' => 'Cooking',
+                'non_existing_field' => 'the value'
+            ]
+        ]);
+
+        $response->assertStatus(422);
+
+        $this->assertEquals(0, Booking::count());
+    }
+
+    /** @test */
+    public function a_guest_can_make_a_booking_with_custom_fields_for_the_wrong_event_but_those_are_filtered()
+    {
+        $event = factory(Event::class)->create([
+            'event_type_id' => 'bar',
+        ]);
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'custom_fields' => [
+                'diet' => ['Meat', 'Fish'],
+                'team' => 'Cooking',
+            ]
+        ]);
+
+        $response->assertStatus(422);
+
+        $this->assertEquals(0, Booking::count());
     }
 }

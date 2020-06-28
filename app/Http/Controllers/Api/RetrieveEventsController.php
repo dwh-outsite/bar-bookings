@@ -11,6 +11,11 @@ class RetrieveEventsController extends Controller
 {
     public function __invoke(Request $request)
     {
-        return EventResource::collection(Event::endDateInTheFuture()->orderBy('start')->get());
+        return EventResource::collection(
+            Event::endDateInTheFuture()
+                ->when($request->has('event_type_id'), fn ($query) => $query->where('event_type_id', $request->event_type_id))
+                ->orderBy('start')
+                ->get()
+        );
     }
 }

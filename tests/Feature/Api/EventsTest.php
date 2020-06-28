@@ -53,6 +53,48 @@ class EventsTest extends TestCase
     }
 
     /** @test */
+    public function a_guest_can_filter_bar_events()
+    {
+        $barEvents = factory(Event::class, 1)->create([
+            'event_type_id' => 'bar'
+        ]);
+        $dinnerEvents = factory(Event::class, 1)->create([
+            'event_type_id' => 'dinner'
+        ]);
+
+        $response = $this->getJson('/api/events?event_type_id=bar');
+
+        $response->assertSuccessful();
+        $this->assertApiResponseContains($response, $barEvents, function ($event) {
+            return ['id' => $event->id];
+        });
+        $this->assertApiResponseNotContains($response, $dinnerEvents, function ($event) {
+            return ['id' => $event->id];
+        });
+    }
+
+    /** @test */
+    public function a_guest_can_filter_dinner_events()
+    {
+        $barEvents = factory(Event::class, 1)->create([
+            'event_type_id' => 'bar'
+        ]);
+        $dinnerEvents = factory(Event::class, 1)->create([
+            'event_type_id' => 'dinner'
+        ]);
+
+        $response = $this->getJson('/api/events?event_type_id=dinner');
+
+        $response->assertSuccessful();
+        $this->assertApiResponseContains($response, $dinnerEvents, function ($event) {
+            return ['id' => $event->id];
+        });
+        $this->assertApiResponseNotContains($response, $barEvents, function ($event) {
+            return ['id' => $event->id];
+        });
+    }
+
+    /** @test */
     public function a_guest_cannot_retrieve_expired_events()
     {
         $pastEvents = factory(Event::class, 10)->state('past')->create();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\EventType;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
@@ -27,7 +28,7 @@ class EventsController extends Controller
      */
     public function create()
     {
-        return view('admin.events.form', ['title' => 'Create New Event']);
+        return view('admin.events.form', ['title' => 'Create New Event', 'eventTypes' => EventType::all()]);
     }
 
     /**
@@ -63,7 +64,11 @@ class EventsController extends Controller
      */
     public function edit(Event $event)
     {
-        return view('admin.events.form', ['title' => "Edit {$event->name}", 'event' => $event]);
+        return view('admin.events.form', [
+            'title' => "Edit {$event->name}",
+            'event' => $event,
+            'eventTypes' => EventType::all()
+        ]);
     }
 
     /**
@@ -99,6 +104,7 @@ class EventsController extends Controller
 
     private function validateEvent($request) {
         return $request->validate([
+            'event_type_id' => 'required|string',
             'name' => 'required|string',
             'capacity' => 'required|integer',
             'twoseat_capacity' => 'required|integer',

@@ -12,10 +12,18 @@ class Event extends Model
 
     protected $guarded = [];
     protected $dates = ['start', 'end'];
+    protected $casts = [
+        'custom_fields' => 'array'
+    ];
 
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function eventType()
+    {
+        return $this->belongsTo(EventType::class);
     }
 
     public function availableSeats()

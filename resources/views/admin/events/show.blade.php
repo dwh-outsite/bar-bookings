@@ -43,6 +43,10 @@
             </div>
         </div>
 
+        @if ($event->eventType->hasWidget())
+            {{ $event->eventType->widget($event)->render() }}
+        @endif
+
         <x-bookings title="Active Bookings" :bookings="$event->bookings->filter->isActive()" />
         <x-bookings title="Canceled Bookings" :bookings="$event->bookings->filter->isCanceled()" />
 
