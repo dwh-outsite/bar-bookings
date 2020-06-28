@@ -8,10 +8,13 @@
         @forelse($events as $event)
             <a href="{{ route($area.'.events.show', $event) }}">
                 <div class="p-6 border-b flex hover:bg-purple-100">
-                    <div class="text-gray-700 w-32">
-                        {{ $event->start->format('d-m H:i') }}
+                    <div class="flex-1 flex">
+                        <div class="text-gray-700 w-32">
+                            {{ $event->start->format('d-m H:i') }}
+                        </div>
+                        <div class="text-gray-900">{{ $event->name }}</div>
                     </div>
-                    <div class="text-gray-900">{{ $event->name }}</div>
+                    <div class="text-gray-600">{{ $event->availableSeats() }} / {{ $event->capacity }}</div>
                 </div>
             </a>
         @empty

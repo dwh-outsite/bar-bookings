@@ -3,6 +3,9 @@
 namespace App;
 
 use App\Mail\BookingCanceled;
+use App\Rules\EventMustHaveCapacityLeft;
+use App\Rules\EventMustHaveTwoseatCapacityLeft;
+use App\Rules\GuestCanOnlyHaveOneOpenBookingPerEvent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -27,6 +30,16 @@ class Booking extends Model
         static::creating(function ($booking) {
             $booking->cancelation_token = static::generateCancelationToken();
         });
+    }
+
+    public static function rules($eventId, $emailRequired = true)
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft],
+            'email' => $emailRequired ? ['required', 'email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)] : [],
+            'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($eventId)],
+        ];
     }
 
     public static function generateCancelationToken()

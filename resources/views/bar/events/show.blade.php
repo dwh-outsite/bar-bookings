@@ -16,14 +16,7 @@
             <h1 class="flex-1 text-4xl font-light">
                 {{ $event->name }}
             </h1>
-            <div class="flex">
-                <div class="bg-white border border-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide mr-4">
-                    <strong>{{ $event->twoseat_capacity - $event->availableTwoseats()  }} / {{ $event->twoseat_capacity }}</strong> two-seats
-                </div>
-                <div class="bg-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide">
-                    <strong>{{ $event->capacity - $event->availableSeats() }} / {{ $event->capacity }}</strong> bookings
-                </div>
-            </div>
+            <livewire:counters :event="$event" />
         </div>
 
         <p class="text-gray-500 mt-2 mb-12">
@@ -32,11 +25,14 @@
         </p>
 
         <div class="flex-1 mb-6 flex h-full touch-scrollbar">
-            <div class="w-1/2 pr-2 h-full">
+            <div class="w-1/3 pr-2 h-full">
                 <livewire:interactive-bookings title="Open Bookings" :event="$event" :filter-active="true" :filter-present="false" />
             </div>
-            <div class="w-1/2 pl-2 h-full flex flex-col">
+            <div class="w-1/3 px-2 h-full">
                 <livewire:interactive-bookings title="Present Bookings" :event="$event" :filter-active="true" :filter-present="true" />
+            </div>
+            <div class="w-1/3 pl-2 h-full flex flex-col">
+                <livewire:create-booking :event="$event" />
                 <div class="pt-6"></div>
                 <livewire:interactive-bookings title="Canceled Bookings" :event="$event" :filter-active="false" />
             </div>
