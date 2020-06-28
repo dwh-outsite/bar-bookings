@@ -36,14 +36,15 @@
                     </div>
                 </div>
                 <div class="-mx-1 flex">
-                    @foreach($booking->custom_fields as $name => $value)
+                    @forelse($booking->custom_fields as $name => $value)
                         @if (!empty($value))
                             <div class="bg-purple-200 px-2 py-1 rounded-full text-xs mx-1">
                                 <span class="font-semibold uppercase">{{ $name }}</span>
                                 {{ is_array($value) ? implode(', ', $value) : $value }}
                             </div>
                         @endif
-                    @endforeach
+                    @empty
+                    @endforelse
                 </div>
             </div>
         @empty
