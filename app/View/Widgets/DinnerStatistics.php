@@ -13,6 +13,7 @@ class DinnerStatistics {
     public function diets()
     {
         return $this->event->bookings
+            ->filter->isActive()
             ->map->custom_fields
             ->map->diet
             ->flatten()
@@ -22,6 +23,7 @@ class DinnerStatistics {
     public function teams()
     {
         return $this->event->bookings
+            ->filter->isActive()
             ->map->custom_fields
             ->map->team
             ->flatten()
