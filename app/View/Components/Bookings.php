@@ -9,17 +9,20 @@ class Bookings extends Component
 {
     public string $title;
     public Collection $bookings;
+    public bool $readOnly;
 
     /**
      * Create a new component instance.
      *
      * @param string $title
      * @param Collection $bookings
+     * @param bool $readOnly
      */
-    public function __construct(string $title, Collection $bookings)
+    public function __construct(string $title, Collection $bookings, bool $readOnly = false)
     {
         $this->title = $title;
         $this->bookings = $bookings;
+        $this->readOnly = $readOnly;
     }
     /**
      * Get the view / contents that represent the component.

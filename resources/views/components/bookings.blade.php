@@ -18,24 +18,26 @@
                             @endif
                         </div>
                     </div>
-                    <div class="text-gray-700 md:w-2/6 mb-2">{{ $booking->email }}</div>
-                    <div class="text-gray-700 md:w-1/6 mb-2">{{ $booking->created_at->format('d-m-Y H:i:s') }}</div>
-                    <div class="md:w-1/6 md:text-right mb-2">
-                        @if($booking->isActive())
-                            <form
-                                action="{{ route('admin.bookings.destroy', $booking) }}"
-                                method="POST"
-                                onsubmit="return confirm('Do you really want to cancel the booking of {{ $booking->name }}? NOTE: The guest will receive a cancelation confirmation by e-mail.');"
-                            >
-                                @method('delete')
-                                @csrf
+                    @if (!$readOnly)
+                        <div class="text-gray-700 md:w-2/6 mb-2">{{ $booking->email }}</div>
+                        <div class="text-gray-700 md:w-1/6 mb-2">{{ $booking->created_at->format('d-m-Y H:i:s') }}</div>
+                        <div class="md:w-1/6 md:text-right mb-2">
+                            @if($booking->isActive())
+                                <form
+                                    action="{{ route('admin.bookings.destroy', $booking) }}"
+                                    method="POST"
+                                    onsubmit="return confirm('Do you really want to cancel the booking of {{ $booking->name }}? NOTE: The guest will receive a cancelation confirmation by e-mail.');"
+                                >
+                                    @method('delete')
+                                    @csrf
 
-                                <button class="text-red-300 hover:text-red-500">Cancel</button>
-                            </form>
-                        @endif
-                    </div>
+                                    <button class="text-red-300 hover:text-red-500">Cancel</button>
+                                </form>
+                            @endif
+                        </div>
+                    @endif
                 </div>
-                <div class="-mx-1 flex">
+                <div class="@if ($readOnly) mt-2 @endif -mx-1 flex">
                     @if (!is_null($booking->custom_fields))
                         @foreach($booking->custom_fields as $name => $value)
                             @if (!empty($value))
