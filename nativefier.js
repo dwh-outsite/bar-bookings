@@ -7,6 +7,7 @@ const options = {
     name: 'Bar Bookings', // will be inferred if not specified
     targetUrl: 'https://reserveer.dwhdelft.nl/bar/?token=' + process.env.BAR_AREA_TOKEN, // required
     hideWindowFrame: true,
+    platform: 'windows'
 };
 
 nativefier(options, function(error, appPath) {
