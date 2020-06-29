@@ -9,7 +9,7 @@ class DinnerController
     public function __invoke()
     {
         return view('dinner', [
-            'event' => Event::query()->whereEventTypeId('dinner')->endDateInTheFuture()->orderBy('end')->first(),
+            'event' => Event::query()->whereEventTypeId('dinner')->endDateInTheFuture()->orderBy('end')->firstOrFail(),
         ]);
     }
 }
