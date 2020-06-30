@@ -27,7 +27,7 @@
                 </p>
                 @enderror
             </div>
-            <div class="flex flex-wrap mb-6">
+            <div class="flex flex-wrap mb-3">
                 <label for="email" class="block text-gray-700 text-sm font-bold mb-2">
                     {{ __('Email Address') }}
                 </label>
@@ -41,7 +41,7 @@
                 </p>
                 @enderror
             </div>
-            <div class="flex flex-wrap mb-6">
+            <div class="flex flex-wrap mb-3">
                 <div class="flex w-full">
                     <label for="twoseat-false" class="block bg-purple-200 rounded p-4 font-semibold flex-1 mr-2">
                         <input id="twoseat-false" type="radio" class="form-radio h-8 w-8 mr-2 text-purple-500 @error('twoseat') border-red-500 @enderror" wire:model="twoseat" value="false" required>
@@ -78,7 +78,7 @@
                     @endif
                 </div>
                 <button type="submit" class="inline-block align-middle text-center select-none border font-bold whitespace-no-wrap py-4 px-6 rounded leading-normal no-underline text-gray-100 bg-purple-500 hover:bg-purple-700">
-                    {{ __('Save') }}
+                    {{ __('Register') }}
                 </button>
             </div>
         </form>
