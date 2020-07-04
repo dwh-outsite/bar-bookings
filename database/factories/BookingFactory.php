@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Booking;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Booking::class, function (Faker $faker) {
@@ -22,5 +23,11 @@ $factory->state(Booking::class, 'canceled', function (Faker $faker) {
 $factory->state(Booking::class, 'twoseat', function (Faker $faker) {
     return [
         'twoseat' => true,
+    ];
+});
+
+$factory->state(Booking::class, 'present', function (Faker $faker) {
+    return [
+        'present' => Carbon::now()->subMinute(),
     ];
 });

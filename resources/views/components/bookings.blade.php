@@ -10,8 +10,15 @@
                 <div class="md:flex items-center">
                     <div class="md:w-2/6 mb-2">
                         <div class="flex items-center">
+                            @if ($booking->event->hasStarted())
+                                @if ($booking->isPresent())
+                                    <div class="w-2 h-2 rounded-full bg-green-400 mr-2"></div>
+                                @else
+                                    <div class="w-2 h-2 rounded-full bg-red-400 mr-2"></div>
+                                @endif
+                            @endif
                             {{ $booking->name }}
-                            @if($booking->twoseat)
+                            @if ($booking->twoseat)
                                 <div class="bg-orange-200 px-2 py-1 rounded-full uppercase tracking-wide text-xs ml-2 font-semibold">
                                     two-seat
                                 </div>
@@ -22,7 +29,7 @@
                         <div class="text-gray-700 md:w-2/6 mb-2">{{ $booking->email }}</div>
                         <div class="text-gray-700 md:w-1/6 mb-2">{{ $booking->created_at->format('d-m-Y H:i:s') }}</div>
                         <div class="md:w-1/6 md:text-right mb-2">
-                            @if($booking->isActive())
+                            @if ($booking->isActive())
                                 <form
                                     action="{{ route('admin.bookings.destroy', $booking) }}"
                                     method="POST"
