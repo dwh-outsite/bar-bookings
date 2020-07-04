@@ -42,6 +42,7 @@ class RegistrationTest extends TestCase
         $this->assertEquals('Casper', $booking->name);
         $this->assertEquals('booking@casperboone.nl', $booking->email);
         $this->assertFalse($booking->twoseat);
+        $this->assertTrue($booking->isPresent());
         Mail::assertNothingQueued(BookingConfirmation::class); // we do not want to send e-mails to on the spot guests
     }
 

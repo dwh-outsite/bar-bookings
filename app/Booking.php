@@ -113,4 +113,9 @@ class Booking extends Model
     {
         return $this->status == 'active';
     }
+
+    public function isPresent()
+    {
+        return !is_null($this->present);
+    }
 }
