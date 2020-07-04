@@ -34,7 +34,7 @@ class Booking extends Model
         });
     }
 
-    public static function rules($eventId, $emailRequired = true)
+    public static function rules($eventId, $emailRequired = true, $customFieldsRequired = true)
     {
         $event = Event::find($eventId);
 
@@ -44,12 +44,15 @@ class Booking extends Model
             ]);
         }
 
-        return array_merge([
-            'name' => ['required', 'string', 'max:255'],
-            'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft],
-            'email' => $emailRequired ? ['required', 'email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)] : [],
-            'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($eventId)],
-        ], $event->eventType->customFieldsValidationRules('custom_fields'));
+        return array_merge(
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft],
+                'email' => $emailRequired ? ['required', 'email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)] : [],
+                'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($eventId)],
+            ],
+            $customFieldsRequired ? $event->eventType->customFieldsValidationRules('custom_fields') : []
+        );
     }
 
     public static function generateCancelationToken()

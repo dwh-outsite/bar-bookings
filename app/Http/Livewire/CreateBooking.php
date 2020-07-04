@@ -25,7 +25,7 @@ class CreateBooking extends Component
     public function create()
     {
         return DB::transaction(function () {
-            $booking = Booking::create($this->validate(Booking::rules($this->event_id, false)));
+            $booking = Booking::create($this->validate(Booking::rules($this->event_id, false, false)));
 
             $booking->markAsPresent();
 
