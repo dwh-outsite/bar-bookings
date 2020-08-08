@@ -28,8 +28,8 @@
                         End
                     </div>
                     <div>
-                        {{ $event->start->format('d-m-Y H:i') }} <br />
-                        {{ $event->end->format('d-m-Y H:i') }}
+                        {{ $event->start->format('D d-m-Y H:i') }} <br />
+                        {{ $event->end->format('D d-m-Y H:i') }}
                     </div>
                 </div>
                 <div class="md:flex">

@@ -18,8 +18,8 @@
                     {{ $event->name }}
                 </h1>
                 <p class="text-gray-500 mt-2">
-                    {{ $event->start->format('d-m-Y H:i') }} -
-                    {{ $event->end->format('d-m-Y H:i') }}
+                    {{ $event->start->format('D d-m-Y H:i') }} -
+                    {{ $event->end->format('D d-m-Y H:i') }}
                 </p>
             </div>
             <livewire:counters :event="$event" />
