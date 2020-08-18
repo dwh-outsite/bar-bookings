@@ -17,16 +17,19 @@
                         End
                     </div>
                     <div>
-                        {{ $event->start->format('d-m-Y H:i') }} <br />
-                        {{ $event->end->format('d-m-Y H:i') }}
+                        {{ $event->start->format('D d-m-Y H:i') }} <br />
+                        {{ $event->end->format('D d-m-Y H:i') }}
                     </div>
                 </div>
                 <div class="md:flex">
                     <div class="border border-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide md:mr-4 my-4 md:my-0">
+                        <strong>{{ $event->capacity - $event->availableSeats() }} / {{ $event->capacity }}</strong> bookings
+                    </div>
+                    <div class="border border-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide md:mr-4 my-4 md:my-0">
                         <strong>{{ $event->twoseat_capacity - $event->availableTwoseats()  }} / {{ $event->twoseat_capacity }}</strong> two-seats
                     </div>
                     <div class="bg-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide">
-                        <strong>{{ $event->capacity - $event->availableSeats() }} / {{ $event->capacity }}</strong> bookings
+                        <strong>{{ $event->numberOfAttendees() }}</strong> people
                     </div>
                 </div>
             </div>

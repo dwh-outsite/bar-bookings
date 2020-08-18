@@ -33,7 +33,7 @@ class BookingCanceled extends Mailable
         return $this
             ->subject(
                 "Reservering Geannuleerd / Booking Canceled - {$this->booking->event->name} ".
-                "[{$this->booking->event->start->format('d-m-Y H:i')}]")
+                "[{$this->booking->event->start->format('D d-m-Y H:i')}]")
             ->markdown('emails.bookings.canceled');
     }
 }
