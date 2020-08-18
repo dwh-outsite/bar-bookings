@@ -9,7 +9,7 @@
             <a href="{{ route($area.'.events.show', $event) }}">
                 <div class="p-6 border-b flex hover:bg-purple-100">
                     <div class="flex-1 flex">
-                        <div class="text-gray-700 w-32">
+                        <div class="text-gray-600 pr-5 text-right w-40">
                             {{ $event->start->format('D d-m H:i') }}
                         </div>
                         <div class="text-gray-900">{{ $event->name }}</div>
