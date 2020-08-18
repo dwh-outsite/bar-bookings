@@ -36,6 +36,11 @@ class Event extends Model
         return $this->twoseat_capacity - $this->bookings()->twoseat()->active()->count();
     }
 
+    public function numberOfAttendees()
+    {
+        return $this->bookings()->active()->count() + $this->bookings()->twoseat()->active()->count();
+    }
+
     public function hasStarted()
     {
         return Carbon::now()->greaterThanOrEqualTo($this->start);
