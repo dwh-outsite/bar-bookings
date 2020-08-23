@@ -11,6 +11,8 @@ class CreateBooking extends Component
     public $event_id;
     public $name;
     public $email;
+    public $phone_number;
+    public $ggd_consent = false;
     public $twoseat;
 
     protected $casts = [
