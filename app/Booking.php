@@ -17,6 +17,7 @@ class Booking extends Model
     protected $guarded = [];
     protected $with = ['event'];
     protected $casts = [
+        'ggd_consent' => 'boolean',
         'twoseat' => 'boolean',
         'custom_fields' => 'array',
     ];
@@ -49,6 +50,8 @@ class Booking extends Model
                 'name' => ['required', 'string', 'max:255'],
                 'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft],
                 'email' => $emailRequired ? ['required', 'email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)] : [],
+                'ggd_consent' => ['nullable', 'boolean'],
+                'phone_number' => ['nullable', 'string', 'required_if:ggd_consent,true'],
                 'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($eventId)],
             ],
             $customFieldsRequired ? $event->eventType->customFieldsValidationRules('custom_fields') : []

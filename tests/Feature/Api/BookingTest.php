@@ -44,6 +44,46 @@ class BookingTest extends TestCase
     }
 
     /** @test */
+    public function a_guest_can_make_a_booking_with_ggd_consent()
+    {
+        $this->withoutExceptionHandling();
+
+        $event = factory(Event::class)->create();
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'ggd_consent' => true,
+            'phone_number' => '0612345678'
+        ]);
+
+        $response->assertSuccessful();
+        $booking = Booking::findOrFail(1);
+        $this->assertTrue($booking->ggd_consent);
+        $this->assertEquals('0612345678', $booking->phone_number);
+    }
+
+    /** @test */
+    public function a_guest_can_make_a_booking_without_ggd_consent()
+    {
+        $this->withoutExceptionHandling();
+
+        $event = factory(Event::class)->create();
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'ggd_consent' => false,
+        ]);
+
+        $response->assertSuccessful();
+        $booking = Booking::findOrFail(1);
+        $this->assertFalse($booking->ggd_consent);
+    }
+
+    /** @test */
     public function a_guest_can_make_a_twoseat_booking()
     {
         $this->withoutExceptionHandling();
@@ -155,6 +195,23 @@ class BookingTest extends TestCase
         $responseB->assertStatus(422);
         $this->assertEquals(1, Booking::count());
         Mail::assertQueued(BookingConfirmation::class, 1);
+    }
+
+    /** @test */
+    public function a_guest_cannot_make_a_booking_with_ggd_consent_but_without_a_phone_number()
+    {
+        $event = factory(Event::class)->create();
+
+        $response = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'ggd_consent' => true
+        ]);
+
+        $response->assertStatus(422);
+        $this->assertEquals(0, Booking::count());
+        Mail::assertQueued(BookingConfirmation::class, 0);
     }
 
     /** @test */
