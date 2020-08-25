@@ -26,9 +26,7 @@ class InteractiveBookings extends Component
 
     public function markAsPresent($id)
     {
-        Booking::find($id)->markAsPresent();
-
-        $this->emit('booking-changed');
+        $this->emit('booking-present', $id);
     }
 
     public function unmarkAsPresent($id)

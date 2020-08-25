@@ -49,7 +49,10 @@ class Booking extends Model
             [
                 'name' => ['required', 'string', 'max:255'],
                 'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft],
-                'email' => $emailRequired ? ['required', 'email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)] : [],
+                'email' => array_merge(
+                    $emailRequired ? ['required'] : ['required_if:ggd_consent,true'],
+                    ['email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)]
+                ),
                 'ggd_consent' => ['nullable', 'boolean'],
                 'phone_number' => ['nullable', 'string', 'required_if:ggd_consent,true'],
                 'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($eventId)],
@@ -87,7 +90,9 @@ class Booking extends Model
 
     public function markAsPresent()
     {
-        $this->update(['present' => Carbon::now()]);
+        if (is_null($this->present)) {
+            $this->update(['present' => Carbon::now()]);
+        }
     }
 
     public function unmarkAsPresent()
