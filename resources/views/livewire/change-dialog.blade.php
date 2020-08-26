@@ -13,12 +13,63 @@
             </div>
 
             <div class="p-6">
-                <button
-                    wire:click="markAsLeft({{ $booking->id }})"
-                    class="font-bold py-4 px-4 rounded leading-normal text-purple-500 border border-purple-500 bg-white hover:text-white hover:bg-purple-500"
-                >
-                    Mark as Left
-                </button>
+                <h2 class="font-semibold text-purple-500 mb-4 tracking-wide uppercase border-b border-purple-500 pb-2">
+                    Has {{ $booking->name }} left?
+                </h2>
+
+                <div class="flex items-center">
+                    <button
+                        wire:click="markAsLeft({{ $booking->id }})"
+                        class="font-bold py-4 px-4 rounded leading-normal text-purple-500 border border-purple-500 bg-white hover:text-white hover:bg-purple-500"
+                    >
+                        Mark as Left
+                    </button>
+                    <div class="text-gray-500 ml-6 flex-1 leading-tight">
+                        When the guest has left, you can mark them as "left" to free up a spot for a new guest.
+                    </div>
+                </div>
+
+                <h2 class="font-semibold text-purple-500 mt-6 mb-4 tracking-wide uppercase border-b border-purple-500 pb-2">
+                    Select a new table
+                </h2>
+
+                @if ($booking->ggd_consent)
+                    <div class="flex space-x-2 justify-center">
+                        @foreach(range(1, 8) as $i)
+                            @if (optional($booking->currentTablePlacement())->table_number == $i)
+                                <div class="flex items-center justify-center w-12 h-12 rounded bg-orange-500 text-white border border-orange-500 font-semibold">
+                                    {{ $i }}
+                                </div>
+                            @else
+                                <button
+                                    wire:click="addNewTablePlacement({{ $i }})"
+                                    class="flex items-center justify-center w-12 h-12 rounded text-orange-500 border border-orange-500 font-semibold hover:bg-orange-500 hover:text-white"
+                                >
+                                    {{ $i }}
+                                </button>
+                            @endif
+                        @endforeach
+                    </div>
+
+                    <h2 class="font-semibold text-purple-500 mt-6 mb-2 tracking-wide uppercase border-b border-purple-500 pb-2">
+                        Table history
+                    </h2>
+
+                    @foreach($booking->tablePlacements as $tablePlacement)
+                        <div class="mb-2 flex items-center">
+                            <div class="flex items-center justify-center w-8 h-8 rounded text-white bg-orange-500 font-semibold text-sm mr-2">
+                                {{ $tablePlacement->table_number }}
+                            </div>
+                            {{ $tablePlacement->created_at->format('H:i') }}
+                        </div>
+                    @endforeach
+                @else
+                    <div class="text-gray-500 text-center leading-tight">
+                        This guest did not give consent to share their information with the GGD,
+                        therefore table registration is not necessary.
+                    </div>
+                @endif
+
             </div>
         </div>
     </div>

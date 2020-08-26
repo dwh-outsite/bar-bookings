@@ -35,8 +35,17 @@ class ChangeDialog extends Component
         $this->close();
     }
 
+    public function addNewTablePlacement($tableNumber)
+    {
+        $this->booking->tablePlacements()->create(['table_number' => $tableNumber]);
+    }
+
     public function render()
     {
+        if (!is_null($this->booking)) {
+            $this->booking->refresh();
+        }
+
         return view('livewire.change-dialog');
     }
 }

@@ -54,13 +54,15 @@
                                 Individual Seat
                             </label>
 
-                            <label for="twoseat-true" class="block bg-purple-200 rounded p-4 font-semibold flex-1 flex ml-2">
-                                <input id="twoseat-true" type="radio" class="form-radio h-8 w-8 mr-2 text-purple-500 @error('twoseat') border-red-500 @enderror" wire:model="twoseat" value="true" required>
-                                <div>
-                                    Two-person Seat
-                                    <div class="text-sm mt-1 font-normal">Within 1.5 metres</div>
-                                </div>
-                            </label>
+                            @if ($event->availableTwoSeats() > 0)
+                                <label for="twoseat-true" class="block bg-purple-200 rounded p-4 font-semibold flex-1 flex ml-2">
+                                    <input id="twoseat-true" type="radio" class="form-radio h-8 w-8 mr-2 text-purple-500 @error('twoseat') border-red-500 @enderror" wire:model="twoseat" value="true" required>
+                                    <div>
+                                        Two-person Seat
+                                        <div class="text-sm mt-1 font-normal">Within 1.5 metres</div>
+                                    </div>
+                                </label>
+                            @endif
                         </div>
 
                         @error('twoseat')
@@ -121,6 +123,40 @@
                                 {{ $message }}
                             </p>
                             @enderror
+                        </div>
+                    @endif
+                @elseif ($state == 'table_selection')
+                    @if ($ggd_consent)
+                        <div class="leading-tight mb-4">
+                            Ask the guest where they would like to sit and select the table number below.
+                        </div>
+
+                        <div class="flex space-x-2 justify-center mb-6">
+                            @foreach(range(1, 8) as $i)
+                                @if ($table_number == $i)
+                                    <div class="flex items-center justify-center w-12 h-12 rounded bg-orange-500 text-white border border-orange-500 font-semibold">
+                                        {{ $i }}
+                                    </div>
+                                @else
+                                    <button
+                                        wire:click="selectTableNumber({{ $i }})"
+                                        class="flex items-center justify-center w-12 h-12 rounded text-orange-500 border border-orange-500 font-semibold hover:bg-orange-500 hover:text-white"
+                                    >
+                                        {{ $i }}
+                                    </button>
+                                @endif
+                            @endforeach
+                        </div>
+
+                        @error('table_number')
+                        <p class="text-red-500 text-xs italic my-4">
+                            {{ $message }}
+                        </p>
+                        @enderror
+                    @else
+                        <div class="text-gray-500 text-center leading-tight mb-6">
+                            This guest did not give consent to share their information with the GGD,
+                            therefore table registration is not necessary.
                         </div>
                     @endif
                 @endif

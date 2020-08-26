@@ -71,6 +71,16 @@ class Booking extends Model
         return $this->belongsTo(Event::class);
     }
 
+    public function tablePlacements()
+    {
+        return $this->hasMany(TablePlacement::class);
+    }
+
+    public function currentTablePlacement()
+    {
+        return $this->tablePlacements->last();
+    }
+
     public function scopeEndDateInTheFuture(Builder $query)
     {
         $query->whereHas('event', function (Builder $eventQuery) {

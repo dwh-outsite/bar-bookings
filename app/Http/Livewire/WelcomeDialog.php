@@ -12,10 +12,11 @@ class WelcomeDialog extends Component
         'name' => 'Name',
         'health_check' => 'Health Check',
         'ggd_consent' => 'GGD Consent and Personal Information',
+        'table_selection' => 'Table Placement'
     ];
     public $state = 'inactive';
 
-    public $event_id;
+    public $event;
     public $booking;
 
     public string $name = '';
@@ -24,6 +25,8 @@ class WelcomeDialog extends Component
     public string $email = '';
     public string $phone_number = '';
     public $twoseat = false;
+    public $table_number;
+    public $event_id;
 
     protected $listeners = [
         'new-guest' => 'handleNewGuest',
@@ -35,6 +38,7 @@ class WelcomeDialog extends Component
 
     public function mount($event)
     {
+        $this->event = $event;
         $this->event_id = $event->id;
     }
 
@@ -69,8 +73,13 @@ class WelcomeDialog extends Component
     {
         $this->state = 'inactive';
 
-        $this->reset('name', 'ggd_consent', 'email', 'phone_number', 'twoseat', 'health_check', 'booking');
+        $this->reset('name', 'ggd_consent', 'email', 'phone_number', 'twoseat', 'health_check', 'booking', 'table_number');
         $this->resetValidation();
+    }
+
+    public function selectTableNumber($number)
+    {
+        $this->table_number = $number;
     }
 
     public function register()
@@ -83,6 +92,12 @@ class WelcomeDialog extends Component
             } else {
                 $booking = $this->booking;
                 $booking->update($data);
+            }
+
+            if ($this->ggd_consent) {
+                $this->validate(['table_number' => 'required|int']);
+
+                $booking->tablePlacements()->create(['table_number' => $this->table_number]);
             }
 
             $booking->markAsPresent();

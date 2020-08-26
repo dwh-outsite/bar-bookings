@@ -12,6 +12,15 @@
         @forelse($visibleBookings->sortBy->name as $booking)
             <div class="px-6 py-3 border-b flex items-center hover:bg-purple-100">
                 <div class="flex-1 flex items-center">
+                    @if ($booking->isPresent() && !$booking->hasLeft())
+                        <div class="flex items-center justify-center w-6 h-6 rounded text-orange-500 border border-orange-500 font-semibold text-sm mr-2">
+                            @if (is_null($booking->currentTablePlacement()))
+                                -
+                            @else
+                                {{ $booking->currentTablePlacement()->table_number }}
+                            @endif
+                        </div>
+                    @endif
                     {{ $booking->name }}
                     @if($booking->twoseat)
                         <div class="bg-orange-200 px-2 py-1 rounded-full uppercase tracking-wide text-xs ml-2 font-semibold">
