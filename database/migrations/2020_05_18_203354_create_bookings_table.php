@@ -15,7 +15,7 @@ class CreateBookingsTable extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['active', 'canceled'])->default('active');
+            $table->enum('status', ['active', 'canceled', 'left'])->default('active');
             $table->foreignId('event_id');
             $table->string('name');
             $table->string('email');

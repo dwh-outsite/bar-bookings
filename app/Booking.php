@@ -95,9 +95,12 @@ class Booking extends Model
         }
     }
 
-    public function unmarkAsPresent()
+    public function markAsLeft()
     {
-        $this->update(['present' => null]);
+        $this->update([
+            'status' => 'left',
+            'left' => Carbon::now()
+        ]);
     }
 
     public function cancel()
@@ -125,5 +128,10 @@ class Booking extends Model
     public function isPresent()
     {
         return !is_null($this->present);
+    }
+
+    public function hasLeft()
+    {
+        return !is_null($this->left);
     }
 }

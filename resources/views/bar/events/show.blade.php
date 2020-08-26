@@ -11,6 +11,7 @@
 
 @section('content')
     <livewire:welcome-dialog :event="$event" />
+    <livewire:change-dialog />
 
     <div class="h-full flex flex-col overflow-hidden">
 
@@ -35,9 +36,10 @@
                 <livewire:interactive-bookings title="Open Bookings" :event="$event" :filter-active="true" :filter-present="false" />
             </div>
             <div class="w-1/3 px-2 h-full">
-                <livewire:interactive-bookings title="Present Bookings" :event="$event" :filter-active="true" :filter-present="true" />
+                <livewire:interactive-bookings title="Present Bookings" :event="$event" :filter-active="true" :filter-present="true" :filter-left="false" />
             </div>
-            <div class="w-1/3 pl-2 h-full">
+            <div class="w-1/3 pl-2 h-full flex flex-col space-y-4">
+                <livewire:interactive-bookings title="Left Bookings" :event="$event" :filter-left="true" />
                 <livewire:interactive-bookings title="Canceled Bookings" :event="$event" :filter-active="false" />
             </div>
         </div>
