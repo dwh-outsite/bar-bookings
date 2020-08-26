@@ -50,8 +50,8 @@ class Booking extends Model
                 'name' => ['required', 'string', 'max:255'],
                 'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft],
                 'email' => array_merge(
-                    $emailRequired ? ['required'] : ['required_if:ggd_consent,true'],
-                    ['email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)]
+                    $emailRequired ? ['required', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)] : ['required_if:ggd_consent,true'],
+                    ['email', 'max:255']
                 ),
                 'ggd_consent' => ['nullable', 'boolean'],
                 'phone_number' => ['nullable', 'string', 'required_if:ggd_consent,true'],

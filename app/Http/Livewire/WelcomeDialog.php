@@ -70,6 +70,7 @@ class WelcomeDialog extends Component
         $this->state = 'inactive';
 
         $this->reset('name', 'ggd_consent', 'email', 'phone_number', 'twoseat', 'health_check', 'booking');
+        $this->resetValidation();
     }
 
     public function register()
