@@ -186,3 +186,15 @@
     </div>
     @endif
 </div>
+
+@push('scripts')
+    <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', event => {
+            Echo.private('tablet')
+                .listen('PersonalInformationEnteredOnTablet', data => {
+                    @this.set('email', data.email)
+                    @this.set('phone_number', data.phone_number)
+                });
+        });
+    </script>
+@endpush
