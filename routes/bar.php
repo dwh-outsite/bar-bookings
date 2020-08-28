@@ -10,5 +10,5 @@ Route::middleware(BarAuthentication::class)->group(function () {
     Route::get('events', [EventsController::class, 'index'])->name('bar.events.index');
     Route::get('events/{event}', [EventsController::class, 'show'])->name('bar.events.show');
 
-    Route::get('tablet', TabletController::class);
+    Route::view('tablet', 'bar.tablet');
 });
