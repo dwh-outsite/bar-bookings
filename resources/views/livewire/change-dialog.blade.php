@@ -63,6 +63,8 @@
                             {{ $tablePlacement->created_at->format('H:i') }}
                         </div>
                     @endforeach
+
+                    @include('bar.tables')
                 @else
                     <div class="text-gray-500 text-center leading-tight">
                         This guest did not give consent to share their information with the GGD,
