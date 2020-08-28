@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="/js/app.js" defer></script>
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
@@ -40,6 +40,8 @@
         </div>
     </div>
 
+    <!-- Scripts -->
     @livewireScripts
+    @stack('scripts')
 </body>
 </html>

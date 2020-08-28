@@ -111,7 +111,7 @@
                             @enderror
                         </div>
 
-                        <div class="flex flex-wrap mb-3">
+                        <div class="flex flex-wrap mb-6">
                             <label for="email" class="block text-gray-700 text-sm font-bold mb-2">
                                 {{ __('Phone Number') }}
                             </label>
@@ -124,6 +124,10 @@
                             </p>
                             @enderror
                         </div>
+
+                        <button wire:click="activateTablet" class="font-bold py-3 px-6 rounded border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white mb-6">
+                            Show this form on the tablet
+                        </button>
                     @endif
                 @elseif ($state == 'table_selection')
                     @if ($ggd_consent)
@@ -186,3 +190,15 @@
     </div>
     @endif
 </div>
+
+@push('scripts')
+    <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', event => {
+            Echo.private('tablet')
+                .listen('PersonalInformationEnteredOnTablet', data => {
+                    @this.set('email', data.email)
+                    @this.set('phone_number', data.phone_number)
+                });
+        });
+    </script>
+@endpush

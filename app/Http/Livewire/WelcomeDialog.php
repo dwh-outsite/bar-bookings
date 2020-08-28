@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Booking;
+use App\Events\ActivateTablet;
+use App\Events\DeactivateTablet;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -59,6 +61,11 @@ class WelcomeDialog extends Component
         $this->state = array_keys($this->states)[0];
     }
 
+    public function activateTablet()
+    {
+        event(new ActivateTablet());
+    }
+
     public function back()
     {
         $this->state = array_keys($this->states)[array_search($this->state, array_keys($this->states)) - 1];
@@ -72,6 +79,8 @@ class WelcomeDialog extends Component
     public function close()
     {
         $this->state = 'inactive';
+
+        event(new DeactivateTablet());
 
         $this->reset('name', 'ggd_consent', 'email', 'phone_number', 'twoseat', 'health_check', 'booking', 'table_number');
         $this->resetValidation();
