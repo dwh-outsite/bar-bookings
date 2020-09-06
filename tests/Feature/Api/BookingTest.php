@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Booking;
+use App\Event;
 use App\Mail\BookingConfirmation;
 use Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
-use App\Event;
-use App\Booking;
 
 class BookingTest extends TestCase
 {
@@ -198,6 +198,55 @@ class BookingTest extends TestCase
     }
 
     /** @test */
+    public function a_guest_cannot_make_two_bookings_for_the_same_event_type()
+    {
+        $eventA = factory(Event::class)->create(['event_type_id' => 'bar']);
+        $eventB = factory(Event::class)->create(['event_type_id' => 'bar']);
+
+        $responseA = $this->postJson('/api/bookings', [
+            'event_id' => $eventA->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl'
+        ]);
+
+        $responseB = $this->postJson('/api/bookings', [
+            'event_id' => $eventB->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl'
+        ]);
+
+        $responseA->assertSuccessful();
+        $responseB->assertStatus(422);
+        $this->assertEquals(1, Booking::count());
+        Mail::assertQueued(BookingConfirmation::class, 1);
+    }
+
+    /** @test */
+    public function a_guest_can_make_two_bookings_for_events_of_a_different_type()
+    {
+        $eventBar = factory(Event::class)->create(['event_type_id' => 'bar']);
+        $eventDinner = factory(Event::class)->create(['event_type_id' => 'dinner']);
+
+        $responseA = $this->postJson('/api/bookings', [
+            'event_id' => $eventBar->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl'
+        ]);
+
+        $responseB = $this->postJson('/api/bookings', [
+            'event_id' => $eventDinner->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl',
+            'custom_fields' => ['team' => 'cookies']
+        ]);
+
+        $responseA->assertSuccessful();
+        $responseB->assertSuccessful();
+        $this->assertEquals(2, Booking::count());
+        Mail::assertQueued(BookingConfirmation::class, 2);
+    }
+
+    /** @test */
     public function a_guest_cannot_make_a_booking_with_ggd_consent_but_without_a_phone_number()
     {
         $event = factory(Event::class)->create();
@@ -212,30 +261,6 @@ class BookingTest extends TestCase
         $response->assertStatus(422);
         $this->assertEquals(0, Booking::count());
         Mail::assertQueued(BookingConfirmation::class, 0);
-    }
-
-    /** @test */
-    public function a_guest_can_make_two_bookings_for_two_different_events_in_the_future()
-    {
-        $eventA = factory(Event::class)->create();
-        $eventB = factory(Event::class)->create();
-
-        $responseA = $this->postJson('/api/bookings', [
-            'event_id' => $eventA->id,
-            'name' => 'Casper',
-            'email' => 'booking@casperboone.nl'
-        ]);
-
-        $responseB = $this->postJson('/api/bookings', [
-            'event_id' => $eventB->id,
-            'name' => 'Also Casper',
-            'email' => 'booking@casperboone.nl'
-        ]);
-
-        $responseA->assertSuccessful();
-        $responseB->assertSuccessful();
-        $this->assertEquals(2, Booking::count());
-        Mail::assertQueued(BookingConfirmation::class, 2);
     }
 
     /** @test */

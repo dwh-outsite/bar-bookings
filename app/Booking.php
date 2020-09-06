@@ -6,6 +6,7 @@ use App\Mail\BookingCanceled;
 use App\Rules\EventMustHaveCapacityLeft;
 use App\Rules\EventMustHaveTwoseatCapacityLeft;
 use App\Rules\GuestCanOnlyHaveOneOpenBookingPerEvent;
+use App\Rules\GuestCanOnlyHaveOneOpenBookingPerEventType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -40,7 +41,7 @@ class Booking extends Model
             [
                 'name' => ['required', 'string', 'max:255'],
                 'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft($event)],
-                'email' => ['required', new GuestCanOnlyHaveOneOpenBookingPerEvent($event), 'email', 'max:255'],
+                'email' => ['required',  'email', 'max:255', new GuestCanOnlyHaveOneOpenBookingPerEvent($event), new GuestCanOnlyHaveOneOpenBookingPerEventType($event)],
                 'ggd_consent' => ['nullable', 'boolean'],
                 'phone_number' => ['nullable', 'string', 'required_if:ggd_consent,true'],
                 'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($event)],
