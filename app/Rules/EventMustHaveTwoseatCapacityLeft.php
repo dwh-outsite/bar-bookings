@@ -7,11 +7,11 @@ use Illuminate\Contracts\Validation\Rule;
 
 class EventMustHaveTwoseatCapacityLeft implements Rule
 {
-    private $eventId;
+    private Event $event;
 
-    public function __construct($eventId)
+    public function __construct(Event $event)
     {
-        $this->eventId = $eventId;
+        $this->event = $event;
     }
 
     /**
@@ -27,13 +27,7 @@ class EventMustHaveTwoseatCapacityLeft implements Rule
             return true;
         }
 
-        $event = Event::find($this->eventId);
-
-        if ($event == null) {
-            return false;
-        }
-
-        return $event->twoseat_capacity - $event->bookings()->twoseat()->active()->lockForUpdate()->count() > 0;
+        return $this->event->twoseat_capacity - $this->event->bookings()->twoseat()->active()->lockForUpdate()->count() > 0;
     }
 
     /**

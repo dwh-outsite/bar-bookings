@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\ValidationException;
 
 class Booking extends Model
 {
@@ -35,30 +34,31 @@ class Booking extends Model
         });
     }
 
-    public static function rules($eventId, $emailRequired = true, $customFieldsRequired = true)
+    public static function rules($event)
     {
-        $event = Event::find($eventId);
-
-        if ($event == null) {
-            throw ValidationException::withMessages([
-                'event_id' => ['This event does not exist'],
-            ]);
-        }
-
         return array_merge(
             [
                 'name' => ['required', 'string', 'max:255'],
-                'event_id' => array_merge(['required', 'integer'], $emailRequired ? [new EventMustHaveCapacityLeft] : []),
-                'email' => array_merge(
-                    $emailRequired ? ['required', new GuestCanOnlyHaveOneOpenBookingPerEvent($eventId)] : ['required_if:ggd_consent,true'],
-                    ['email', 'max:255']
-                ),
+                'event_id' => ['required', 'integer', new EventMustHaveCapacityLeft($event)],
+                'email' => ['required', new GuestCanOnlyHaveOneOpenBookingPerEvent($event), 'email', 'max:255'],
                 'ggd_consent' => ['nullable', 'boolean'],
                 'phone_number' => ['nullable', 'string', 'required_if:ggd_consent,true'],
-                'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($eventId)],
+                'twoseat' => ['boolean', new EventMustHaveTwoseatCapacityLeft($event)],
             ],
-            $customFieldsRequired ? $event->eventType->customFieldsValidationRules('custom_fields') : []
+            $event->eventType->customFieldsValidationRules('custom_fields')
         );
+    }
+
+    public static function barRules()
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'event_id' => ['required', 'integer'],
+            'email' => ['required_if:ggd_consent,true', 'email', 'max:255'],
+            'ggd_consent' => ['nullable', 'boolean'],
+            'phone_number' => ['nullable', 'string', 'required_if:ggd_consent,true'],
+            'twoseat' => ['boolean'],
+        ];
     }
 
     public static function generateCancelationToken()

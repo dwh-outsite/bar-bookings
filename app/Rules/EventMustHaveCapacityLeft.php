@@ -7,6 +7,8 @@ use Illuminate\Contracts\Validation\Rule;
 
 class EventMustHaveCapacityLeft implements Rule
 {
+
+
     /**
      * Determine if the validation rule passes.
      *

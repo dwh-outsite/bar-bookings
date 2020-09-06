@@ -2,19 +2,17 @@
 
 namespace App\Rules;
 
-use App\Booking;
 use App\Event;
 use Illuminate\Contracts\Validation\Rule;
 
 class GuestCanOnlyHaveOneOpenBookingPerEvent implements Rule
 {
-    private $eventId;
+    private Event $event;
 
-    public function __construct($eventId)
+    public function __construct(Event $event)
     {
-        $this->eventId = $eventId;
+        $this->event = $event;
     }
-
 
     /**
      * Determine if the validation rule passes.
@@ -25,7 +23,7 @@ class GuestCanOnlyHaveOneOpenBookingPerEvent implements Rule
      */
     public function passes($attribute, $value)
     {
-        return !Booking::where('event_id', $this->eventId)->where('email', $value)->active()->endDateInTheFuture()->exists();
+        return !$this->event->bookings()->where('email', $value)->active()->endDateInTheFuture()->exists();
     }
 
     /**

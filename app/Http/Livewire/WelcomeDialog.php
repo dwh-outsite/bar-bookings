@@ -41,7 +41,7 @@ class WelcomeDialog extends Component
     public function mount($event)
     {
         $this->event = $event;
-        $this->event_id = $event->id;
+        $this->event_id = $event->id;  // required for form validation
     }
 
     public function handleNewGuest()
@@ -49,7 +49,8 @@ class WelcomeDialog extends Component
         $this->state = array_keys($this->states)[0];
     }
 
-    public function handleBookingPresent($id) {
+    public function handleBookingPresent($id)
+    {
         $this->booking = Booking::find($id);
 
         $this->name = $this->booking->name;
@@ -94,7 +95,7 @@ class WelcomeDialog extends Component
     public function register()
     {
         return DB::transaction(function () {
-            $data = $this->validate(Booking::rules($this->event_id, false, false));
+            $data = $this->validate(Booking::barRules());
 
             if (is_null($this->booking)) {
                 $booking = Booking::create($data);
