@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class Booking extends Model
 {
@@ -59,6 +60,16 @@ class Booking extends Model
             'ggd_consent' => ['nullable', 'boolean'],
             'phone_number' => ['nullable', 'string', 'required_if:ggd_consent,true'],
             'twoseat' => ['boolean'],
+        ];
+    }
+
+    public static function visitorRules()
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'ggd_consent' => ['nullable', 'boolean'],
+            'email' => ['required_if:ggd_consent,true', 'email', 'max:255'],
+            'phone_number' => ['nullable', 'string', 'required_if:ggd_consent,true'],
         ];
     }
 
@@ -144,5 +155,16 @@ class Booking extends Model
     public function hasLeft()
     {
         return !is_null($this->left);
+    }
+
+    public function getVisitorCodeAttribute($visitorCode)
+    {
+        if (is_null($visitorCode)) {
+            $visitorCode = strtoupper(Str::random(6));
+            $this->update(['visitor_code' => $visitorCode]);
+            $this->refresh();
+        }
+
+        return $visitorCode;
     }
 }

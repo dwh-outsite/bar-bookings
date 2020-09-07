@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\DinnerController;
+use App\Http\Controllers\VisitorController;
 use App\Http\Middleware\DinnerAuthentication as DinnerAuthenticationAlias;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DinnerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,6 @@ use App\Http\Controllers\DinnerController;
 Route::redirect('/', 'https://dwhdelft.nl/book');
 
 Route::get('/dinner', DinnerController::class)->middleware(DinnerAuthenticationAlias::class);
+
+Route::get('/visitor', [VisitorController::class, 'index'])->name('visitor');
+Route::get('/visitor/welcome', [VisitorController::class, 'enterCode'])->name('visitor.enter_code');
