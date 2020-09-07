@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Middleware\BarAuthentication;
 use Livewire\Component;
 
 class InteractiveBookings extends Component
@@ -15,6 +16,11 @@ class InteractiveBookings extends Component
     protected $listeners = [
         'booking-changed' => '$refresh'
     ];
+
+    public function hydrate()
+    {
+        BarAuthentication::authenticate(request());
+    }
 
     public function mount($title, $event, $filterActive = null, $filterPresent = null, $filterLeft = null)
     {

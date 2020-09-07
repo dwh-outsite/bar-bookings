@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Middleware\BarAuthentication;
 use Livewire\Component;
 
 class Counters extends Component
@@ -11,6 +12,11 @@ class Counters extends Component
     protected $listeners = [
         'booking-changed' => '$refresh'
     ];
+
+    public function hydrate()
+    {
+        BarAuthentication::authenticate(request());
+    }
 
     public function mount($event)
     {

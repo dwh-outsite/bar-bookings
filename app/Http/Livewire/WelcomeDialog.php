@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Booking;
 use App\Events\ActivateTablet;
 use App\Events\DeactivateTablet;
+use App\Http\Middleware\BarAuthentication;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -37,6 +38,11 @@ class WelcomeDialog extends Component
     protected $casts = [
         'twoseat' => BooleanCaster::class
     ];
+
+    public function hydrate()
+    {
+        BarAuthentication::authenticate(request());
+    }
 
     public function mount($event)
     {

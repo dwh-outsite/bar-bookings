@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Booking;
+use App\Http\Middleware\BarAuthentication;
 use Livewire\Component;
 
 class ChangeDialog extends Component
@@ -14,6 +15,11 @@ class ChangeDialog extends Component
     protected $listeners = [
         'booking-change' => 'handleBookingChange'
     ];
+
+    public function hydrate()
+    {
+        BarAuthentication::authenticate(request());
+    }
 
     public function handleBookingChange($id)
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Events\PersonalInformationEnteredOnTablet;
+use App\Http\Middleware\BarAuthentication;
 use Livewire\Component;
 
 class TabletDialog extends Component
@@ -11,6 +12,11 @@ class TabletDialog extends Component
 
     public $email;
     public $phone_number;
+
+    public function hydrate()
+    {
+        BarAuthentication::authenticate(request());
+    }
 
     public function confirm()
     {

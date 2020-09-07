@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Middleware\BarAuthentication;
-
 return [
 
     /*
@@ -57,7 +55,7 @@ return [
     |
     */
 
-    'middleware_group'  => ['web', BarAuthentication::class],
+    'middleware_group'  => ['web'],
 
     /*
     |--------------------------------------------------------------------------
