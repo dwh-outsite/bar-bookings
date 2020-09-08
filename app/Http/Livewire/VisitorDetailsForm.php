@@ -14,6 +14,10 @@ class VisitorDetailsForm extends Component
     public $email = '';
     public $phone_number = '';
 
+    protected $casts = [
+        'ggd_consent' => BooleanCaster::class
+    ];
+
     public function mount($booking)
     {
         $this->booking = $booking;
