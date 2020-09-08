@@ -1,6 +1,8 @@
 <div class="w-screen h-screen absolute top-0 left-0 flex items-center justify-center">
     @if ($state == 'details_form')
-        <livewire:visitor-details-form :booking="$booking" />
+        <div class="w-2/3">
+            <livewire:visitor-details-form :booking="$booking" />
+        </div>
     @elseif ($state == 'visitor_code')
         <div class="bg-white rounded-lg overflow-hidden w-5/6 shadow-xl p-6 flex items-center">
             <div class="mr-6">
