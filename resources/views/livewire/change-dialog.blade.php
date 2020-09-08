@@ -14,6 +14,39 @@
 
             <div class="p-6">
                 <h2 class="font-semibold text-purple-500 mb-4 tracking-wide uppercase border-b border-purple-500 pb-2">
+                    Current contact details
+                </h2>
+
+                <div wire:poll>
+                    <div class="mt-2">
+                        <strong>Name:</strong>
+                        {{ $booking->name }}
+                    </div>
+                    <div class="mt-2">
+                        <strong>GGD Consent:</strong>
+                        {{ $booking->ggd_consent ? 'Yes' : 'No' }}
+                    </div>
+                    <div class="mt-2">
+                        <strong>Email:</strong>
+                        {{ $booking->email }}
+                    </div>
+                    <div class="mt-2">
+                        <strong>Phone Number:</strong>
+                        {{ $booking->phone_number}}
+                    </div>
+                </div>
+                <div class="text-sm text-gray-700">(updated automatically when changed on tablet)</div>
+
+                <div class="flex space-x-4 mt-4">
+                    <button wire:click="showVisitorCodeOnTablet" class="flex-1 font-bold py-3 px-6 rounded border border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white">
+                        Show QR code on tablet
+                    </button>
+                    <button wire:click="showVisitorDetailsFormOnTablet" class="flex-1 font-bold py-3 px-6 rounded border border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white">
+                        Show form on tablet
+                    </button>
+                </div>
+
+                <h2 class="font-semibold text-purple-500 mt-6 mb-4 tracking-wide uppercase border-b border-purple-500 pb-2">
                     Has {{ $booking->name }} left?
                 </h2>
 
@@ -56,11 +89,11 @@
                     </h2>
 
                     @foreach($booking->tablePlacements as $tablePlacement)
-                        <div class="mb-2 flex items-center">
-                            <div class="flex items-center justify-center w-8 h-8 rounded text-white bg-orange-500 font-semibold text-sm mr-2">
+                        <div class="my-1 inline-flex items-center bg-orange-100 border border-orange-500 rounded overflow-hidden mr-1">
+                            <div class="flex items-center justify-center w-8 h-8 rounded-r text-white bg-orange-500 font-semibold text-sm mr-2">
                                 {{ $tablePlacement->table_number }}
                             </div>
-                            {{ $tablePlacement->created_at->format('H:i') }}
+                            <div class="pr-2 font-semibold text-sm">{{ $tablePlacement->created_at->format('H:i') }}</div>
                         </div>
                     @endforeach
 

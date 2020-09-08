@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Booking;
+use App\Events\ShowDetailsFormOnTablet;
+use App\Events\ShowVisitorCodeOnTablet;
 use App\Http\Middleware\BarAuthentication;
 use Livewire\Component;
 
@@ -30,6 +32,16 @@ class ChangeDialog extends Component
     public function close()
     {
         $this->reset();
+    }
+
+    public function showVisitorDetailsFormOnTablet()
+    {
+        event(new ShowDetailsFormOnTablet($this->booking));
+    }
+
+    public function showVisitorCodeOnTablet()
+    {
+        event(new ShowVisitorCodeOnTablet($this->booking));
     }
 
     public function markAsLeft()
