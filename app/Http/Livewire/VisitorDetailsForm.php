@@ -10,7 +10,7 @@ class VisitorDetailsForm extends Component
     public $booking;
 
     public $name = '';
-    public $ggd_consent = false;
+    public bool $ggd_consent = false;
     public $email = '';
     public $phone_number = '';
 
