@@ -9,10 +9,10 @@ class VisitorDetailsForm extends Component
 {
     public $booking;
 
-    public string $name = '';
-    public bool $ggd_consent = false;
-    public string $email = '';
-    public string $phone_number = '';
+    public $name = '';
+    public $ggd_consent = false;
+    public $email = '';
+    public $phone_number = '';
 
     public function mount($booking)
     {
