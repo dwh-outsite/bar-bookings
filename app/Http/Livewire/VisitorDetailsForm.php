@@ -32,6 +32,9 @@ class VisitorDetailsForm extends Component
         ));
 
         $this->emit('visitor-details-form-completed');
+
+        $this->reset();
+        $this->resetValidation();
     }
 
     public function render()

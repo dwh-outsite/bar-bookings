@@ -1,44 +1,30 @@
 <div class="w-screen h-screen absolute top-0 left-0 flex items-center justify-center">
-    @if ($state !== 'inactive')
-        <div class="bg-white rounded-lg overflow-hidden w-1/2 shadow-xl">
-            <div class="bg-purple-500 text-gray-100 shadow px-6 py-4 text-lg flex justify-between items-center">
-                <div>
-                    <strong>Persoonlijke gegevens / Personal details</strong>
-                </div>
+    @if ($state == 'details_form')
+        <livewire:visitor-details-form :booking="$booking" />
+    @elseif ($state == 'visitor_code')
+        <div class="bg-white rounded-lg overflow-hidden w-5/6 shadow-xl p-6 flex items-center">
+            <div class="mr-6">
+                <div id="qrcode"></div>
             </div>
-
-            <div class="p-6">
-                <div class="flex flex-wrap mb-6">
-                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">
-                        E-mail adres / Email Address
-                    </label>
-
-                    <input id="email" type="email" class="form-input border-none w-full bg-gray-100 h-16  @error('email') border-red-500 @enderror" wire:model="email" value="{{ old('email') }}" placeholder="Email Address">
-
-                    @error('email')
-                    <p class="text-red-500 text-xs italic mt-4">
-                        {{ $message }}
-                    </p>
-                    @enderror
+            <div class="flex-1 flex flex-col justify-between">
+                <div class="mb-4">
+                    <h2 class="text-purple-500 text-4xl font-bold leading-tight mb-2">Scan de QR code om je gegevens te registreren</h2>
+                    <h2 class="text-purple-400 text-2xl font-semibold leading-tight">Scan the QR code to register your personal details</h2>
                 </div>
 
-                <div class="flex flex-wrap mb-6">
-                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">
-                        Telefoonnummer / Phone Number
-                    </label>
-
-                    <input id="phone_number" type="phone_number" class="form-input border-none w-full bg-gray-100 h-16  @error('phone_number') border-red-500 @enderror" wire:model="phone_number" value="{{ old('phone_number') }}" placeholder="Phone Number">
-
-                    @error('phone_number')
-                    <p class="text-red-500 text-xs italic mt-4">
-                        {{ $message }}
-                    </p>
-                    @enderror
+                <div class="flex items-center bg-purple-100 p-3 rounded">
+                    <div class="flex-1">
+                        <div class="mb-2">
+                            Geen QR code scanner? Ga naar <strong>dwhdelft.nl/welkom</strong> en vul de code in
+                        </div>
+                        <div>
+                            No QR code scanner? Go to <strong>dwhdelft.nl/welcome</strong> and enter the code
+                        </div>
+                    </div>
+                    <div class="text-purple-500 text-4xl font-bold text-center mr-4">
+                        {{ $booking->visitor_code }}
+                    </div>
                 </div>
-
-                <button wire:click="confirm" class="font-bold py-4 px-6 mx-auto block rounded text-gray-100 bg-purple-500 hover:bg-purple-700">
-                    Bevestig / Confirm
-                </button>
             </div>
         </div>
     @else
@@ -47,15 +33,26 @@
 </div>
 
 @push('scripts')
+    <script src="/lib/qrcode.min.js"></script>
     <script type="text/javascript">
         window.addEventListener('DOMContentLoaded', event => {
             Echo.private('tablet')
-                .listen('ActivateTablet', data => {
-                    @this.set('state', 'active')
+                .listen('ShowDetailsFormOnTablet', data => {
+                    @this.call('showDetailsForm', data.booking)
+                })
+                .listen('ShowVisitorCodeOnTablet', data => {
+                    @this.call('showVisitorCode', data.booking)
                 })
                 .listen('DeactivateTablet', data => {
                     @this.call('close')
                 });
+
+            @this.on('tablet-show-visitor-code', visitorCode => {
+                new QRCode(
+                    document.getElementById("qrcode"),
+                    "{{ route('visitor') }}?visitor_code=" + visitorCode
+                );
+            });
         });
     </script>
 @endpush

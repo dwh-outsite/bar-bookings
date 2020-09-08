@@ -3,8 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Booking;
-use App\Events\ActivateTablet;
 use App\Events\DeactivateTablet;
+use App\Events\ShowDetailsFormOnTablet;
+use App\Events\ShowVisitorCodeOnTablet;
 use App\Http\Middleware\BarAuthentication;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -14,8 +15,7 @@ class WelcomeDialog extends Component
     public $states = [
         'name' => 'Name',
         'health_check' => 'Health Check',
-        'ggd_consent' => 'GGD Consent and Personal Information',
-        'table_selection' => 'Table Placement'
+        'contact_details' => 'Contact Details'
     ];
     public $state = 'inactive';
 
@@ -68,9 +68,21 @@ class WelcomeDialog extends Component
         $this->state = array_keys($this->states)[0];
     }
 
-    public function activateTablet()
+    public function showContactDetailsOptions()
     {
-        event(new ActivateTablet());
+        $this->state = 'contact_details';
+
+        $this->showVisitorCodeOnTablet();
+    }
+
+    public function showVisitorDetailsFormOnTablet()
+    {
+        event(new ShowDetailsFormOnTablet($this->booking));
+    }
+
+    public function showVisitorCodeOnTablet()
+    {
+        event(new ShowVisitorCodeOnTablet($this->booking));
     }
 
     public function back()
@@ -104,23 +116,16 @@ class WelcomeDialog extends Component
             $data = $this->validate(Booking::barRules());
 
             if (is_null($this->booking)) {
-                $booking = Booking::create($data);
+                $this->booking = Booking::create($data);
             } else {
-                $booking = $this->booking;
-                $booking->update($data);
+                $this->booking->update($data);
             }
 
-            if ($this->ggd_consent) {
-                $this->validate(['table_number' => 'required|int']);
-
-                $booking->tablePlacements()->create(['table_number' => $this->table_number]);
-            }
-
-            $booking->markAsPresent();
+            $this->booking->markAsPresent();
 
             $this->emit('booking-changed');
 
-            $this->close();
+            $this->showContactDetailsOptions();
         });
     }
 

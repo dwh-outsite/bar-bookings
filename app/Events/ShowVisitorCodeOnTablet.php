@@ -2,24 +2,27 @@
 
 namespace App\Events;
 
+use App\Booking;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ActivateTablet implements ShouldBroadcastNow
+class ShowVisitorCodeOnTablet implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $booking;
 
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param $booking
      */
-    public function __construct()
+    public function __construct(Booking $booking)
     {
-        //
+        $this->booking = $booking;
     }
 
     /**

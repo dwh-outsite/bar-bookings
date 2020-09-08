@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Booking;
 use App\Events\PersonalInformationEnteredOnTablet;
 use App\Http\Middleware\BarAuthentication;
 use Livewire\Component;
@@ -10,24 +11,38 @@ class TabletDialog extends Component
 {
     public $state = 'inactive';
 
-    public $email;
-    public $phone_number;
+    public $booking;
+
+    protected $listeners = [
+        'visitor-details-form-completed' => 'handleVisitorDetailsFormCompleted'
+    ];
 
     public function hydrate()
     {
         BarAuthentication::authenticate(request());
     }
 
-    public function confirm()
+    public function showVisitorCode($booking)
     {
-        $this->validate([
-            'email' => ['required', 'email', 'max:255'],
-            'phone_number' => ['required', 'string'],
-        ]);
+        $this->booking = Booking::find($booking['id']);
 
-        event(new PersonalInformationEnteredOnTablet($this->email, $this->phone_number));
+        $this->state = 'visitor_code';
 
+        $this->emit('tablet-show-visitor-code', $this->booking->visitor_code);
+    }
+
+    public function showDetailsForm($booking)
+    {
+        $this->booking = Booking::find($booking['id']);
+
+        $this->state = 'details_form';
+    }
+
+    public function handleVisitorDetailsFormCompleted()
+    {
         $this->close();
+
+        event(new PersonalInformationEnteredOnTablet());
     }
 
     public function close()

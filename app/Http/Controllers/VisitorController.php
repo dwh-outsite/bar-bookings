@@ -10,7 +10,7 @@ class VisitorController extends Controller
     public function index(Request $request)
     {
         if (!session()->has('visitor_code') && !$request->has('visitor_code')) {
-            return redirect(route('visitors.enter_code'));
+            return redirect(route('visitor.enter_code'));
         }
 
         if ($request->has('visitor_code')) {

@@ -84,109 +84,71 @@
                         </div>
                     </label>
 
-                @elseif ($state == 'ggd_consent')
+                @elseif ($state == 'contact_details')
+                    The QR code for the registration of personal details of the visitor is now being shown on the tablet.
+                    If the visitor cannot scan a QR code, they can visit <strong>dwhdelft.nl/welcome</strong> and enter code <strong>{{ $booking->visitor_code }}</strong>.<br />
+                    <br />
+                    Alternatively, you can show the form for entering personal details on the tablet by pressing the button below.
 
-                    <label for="ggd_consent" class="block bg-purple-200 rounded p-4 font-semibold flex-1 flex mb-6">
-                        <input id="ggd_consent" type="checkbox" class="form-checkbox h-8 w-8 mr-3 text-purple-500 @error('ggd_consent') border-red-500 @enderror focus:outline-none" wire:model="ggd_consent" value="true" required>
-                        <div class="leading-tight">
-                            Geef je toestemming om je gegevens te delen met de GGD wanneer deze worden opgevraagd voor van een bron- en contactonderzoek?
-                            <div class="text-sm mt-1 font-normal">
-                                Do you consent to share your information with the municipal health service (GGD) to support contact tracing if requested?
-                            </div>
-                        </div>
-                    </label>
-
-                    @if ($ggd_consent)
-                        <div class="flex flex-wrap mb-6">
-                            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">
-                                {{ __('Email Address') }}
-                            </label>
-
-                            <input id="email" type="email" class="form-input border-none w-full bg-gray-100 h-16  @error('email') border-red-500 @enderror" wire:model="email" value="{{ old('email') }}" placeholder="Email Address">
-
-                            @error('email')
-                            <p class="text-red-500 text-xs italic mt-4">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-
-                        <div class="flex flex-wrap mb-6">
-                            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">
-                                {{ __('Phone Number') }}
-                            </label>
-
-                            <input id="phone_number" type="phone_number" class="form-input border-none w-full bg-gray-100 h-16  @error('phone_number') border-red-500 @enderror" wire:model="phone_number" value="{{ old('phone_number') }}" placeholder="Phone Number">
-
-                            @error('phone_number')
-                            <p class="text-red-500 text-xs italic mt-4">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-
-                        <button wire:click="activateTablet" class="font-bold py-3 px-6 rounded border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white mb-6">
-                            Show this form on the tablet
+                    <div class="mt-4 flex space-x-4">
+                        <button wire:click="showVisitorCodeOnTablet" class="flex-1 font-bold py-3 px-6 rounded border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white">
+                            Show QR code on tablet
                         </button>
-                    @endif
-                @elseif ($state == 'table_selection')
-                    @if ($ggd_consent)
-                        <div class="leading-tight mb-4">
-                            Ask the guest where they would like to sit and select the table number below.
-                        </div>
+                        <button wire:click="showVisitorDetailsFormOnTablet" class="flex-1 font-bold py-3 px-6 rounded border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white">
+                            Show form on tablet
+                        </button>
+                    </div>
 
-                        <div class="flex space-x-2 justify-center mb-6">
-                            @foreach(range(1, 8) as $i)
-                                @if ($table_number == $i)
-                                    <div class="flex items-center justify-center w-12 h-12 rounded bg-orange-500 text-white border border-orange-500 font-semibold">
-                                        {{ $i }}
-                                    </div>
-                                @else
-                                    <button
-                                        wire:click="selectTableNumber({{ $i }})"
-                                        class="flex items-center justify-center w-12 h-12 rounded text-orange-500 border border-orange-500 font-semibold hover:bg-orange-500 hover:text-white"
-                                    >
-                                        {{ $i }}
-                                    </button>
-                                @endif
-                            @endforeach
-                        </div>
 
-                        @error('table_number')
-                        <p class="text-red-500 text-xs italic my-4">
-                            {{ $message }}
-                        </p>
-                        @enderror
+                    <h2 class="font-semibold text-purple-500 mt-6 mb-2 tracking-wide uppercase border-b border-purple-500 pb-2">
+                        Current contact details
+                    </h2>
+                        <div class="text-sm text-gray-700">(updated automatically when changed on tablet)</div>
 
-                        @include('bar.tables')
-
-                    @else
-                        <div class="text-gray-500 text-center leading-tight mb-6">
-                            This guest did not give consent to share their information with the GGD,
-                            therefore table registration is not necessary.
-                        </div>
-                    @endif
+                    <div class="mt-2">
+                        <strong>Name:</strong>
+                        {{ $booking->name }}
+                    </div>
+                    <div class="mt-2">
+                        <strong>GGD Consent:</strong>
+                        {{ $booking->ggd_consent ? 'Yes' : 'No' }}
+                    </div>
+                    <div class="mt-2">
+                        <strong>Email:</strong>
+                        {{ $booking->email }}
+                    </div>
+                    <div class="mt-2">
+                        <strong>Phone Number:</strong>
+                        {{ $booking->phone_number}}
+                    </div>
                 @endif
 
                 <div class="flex justify-between">
-                    <div>
-                        @if (array_search($state, array_keys($states)) > 0)
-                            <button wire:click="back" class="font-bold py-3 px-6 rounded border-2 border-purple-300 text-purple-300 hover:bg-purple-300 hover:text-white">
-                                &laquo; {{ __('Back') }}
-                            </button>
-                        @endif
-                    </div>
-                    <div>
-                        @if (array_search($state, array_keys($states)) < (count($states) - 1))
-                            <button wire:click="next" class="font-bold py-3 px-6 rounded text-gray-100 bg-purple-500 hover:bg-purple-700">
-                                {{ __('Next') }} &raquo;
-                            </button>
-                        @else
-                            <button wire:click="register" class="font-bold py-3 px-6 rounded text-gray-100 bg-purple-500 hover:bg-purple-700">
-                                Register
-                            </button>
-                        @endif
-                    </div>
+                    @if ($state != 'contact_details')
+                        <div>
+                            @if (array_search($state, array_keys($states)) > 0)
+                                <button wire:click="back" class="font-bold py-3 px-6 rounded border-2 border-purple-300 text-purple-300 hover:bg-purple-300 hover:text-white">
+                                    &laquo; {{ __('Back') }}
+                                </button>
+                            @endif
+                        </div>
+                        <div>
+                            @if (array_search($state, array_keys($states)) < (count($states) - 2))
+                                <button wire:click="next" class="font-bold py-3 px-6 rounded text-gray-100 bg-purple-500 hover:bg-purple-700">
+                                    {{ __('Next') }} &raquo;
+                                </button>
+                            @else
+                                <button wire:click="register" class="font-bold py-3 px-6 rounded text-gray-100 bg-purple-500 hover:bg-purple-700">
+                                    Register
+                                </button>
+                            @endif
+                        </div>
+                    @else
+                        <div></div>
+                        <button wire:click="close" class="font-bold py-3 px-6 rounded text-gray-100 bg-purple-500 hover:bg-purple-700">
+                            Close
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -198,10 +160,7 @@
     <script type="text/javascript">
         window.addEventListener('DOMContentLoaded', event => {
             Echo.private('tablet')
-                .listen('PersonalInformationEnteredOnTablet', data => {
-                    @this.set('email', data.email)
-                    @this.set('phone_number', data.phone_number)
-                });
+                .listen('PersonalInformationEnteredOnTablet', () => @this.call('$refresh'));
         });
     </script>
 @endpush
