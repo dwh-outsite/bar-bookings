@@ -39,7 +39,7 @@
                 <livewire:interactive-bookings title="Present Bookings" :event="$event" :filter-active="true" :filter-present="true" :filter-left="false" />
             </div>
             <div class="w-1/3 pl-2 h-full flex flex-col space-y-4">
-                <livewire:interactive-bookings title="Left Bookings" :event="$event" :filter-left="true" />
+                <livewire:interactive-bookings title="Left" :event="$event" :filter-left="true" />
                 <livewire:interactive-bookings title="Canceled Bookings" :event="$event" :filter-left="false" :filter-active="false" />
             </div>
         </div>
