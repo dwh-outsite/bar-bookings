@@ -6,7 +6,16 @@
 
     <div class="p-6">
 
-        <div class="flex flex-wrap mb-6">
+        <div class="mb-6">
+            <div class="text-left text-sm text-gray-800 leading-tight mb-6">
+                <div class="mb-2">
+                    Vul hieronder je bezoekerscode in. Heb je nog geen bezoekerscode? Loop even langs de bartender!
+                </div>
+                <div class="mb-2 text-gray-600">
+                    Please enter your visitor code below. No visitor code yet? Please ask the bartender!
+                </div>
+            </div>
+
             <label for="name" class="block text-gray-700 text-sm font-bold mb-2">
                 Bezoekerscode / Visitor Code
                 <span class="text-red-500">*</span>
