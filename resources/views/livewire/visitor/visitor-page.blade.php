@@ -15,7 +15,7 @@
                 @endif
 
                 <div class="my-4 text-gray-600 text-sm leading-tight">
-                    <a wire:click="openForm" class="underline">Voorkeuren wijzigen.</a>
+                    <a wire:click="openForm" class="underline">Voorkeuren wijzigen / Change preferences</a>
                 </div>
             </div>
         </div>
