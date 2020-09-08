@@ -103,23 +103,25 @@
                     <h2 class="font-semibold text-purple-500 mt-6 mb-2 tracking-wide uppercase border-b border-purple-500 pb-2">
                         Current contact details
                     </h2>
-                        <div class="text-sm text-gray-700">(updated automatically when changed on tablet)</div>
+                    <div class="text-sm text-gray-700">(updated automatically when changed on tablet)</div>
 
-                    <div class="mt-2">
-                        <strong>Name:</strong>
-                        {{ $booking->name }}
-                    </div>
-                    <div class="mt-2">
-                        <strong>GGD Consent:</strong>
-                        {{ $booking->ggd_consent ? 'Yes' : 'No' }}
-                    </div>
-                    <div class="mt-2">
-                        <strong>Email:</strong>
-                        {{ $booking->email }}
-                    </div>
-                    <div class="mt-2">
-                        <strong>Phone Number:</strong>
-                        {{ $booking->phone_number}}
+                    <div wire:poll>
+                        <div class="mt-2">
+                            <strong>Name:</strong>
+                            {{ $booking->name }}
+                        </div>
+                        <div class="mt-2">
+                            <strong>GGD Consent:</strong>
+                            {{ $booking->ggd_consent ? 'Yes' : 'No' }}
+                        </div>
+                        <div class="mt-2">
+                            <strong>Email:</strong>
+                            {{ $booking->email }}
+                        </div>
+                        <div class="mt-2">
+                            <strong>Phone Number:</strong>
+                            {{ $booking->phone_number}}
+                        </div>
                     </div>
                 @endif
 
@@ -155,12 +157,3 @@
     </div>
     @endif
 </div>
-
-@push('scripts')
-    <script type="text/javascript">
-        window.addEventListener('DOMContentLoaded', event => {
-            Echo.private('tablet')
-                .listen('PersonalInformationEnteredOnTablet', () => @this.call('$refresh'));
-        });
-    </script>
-@endpush
