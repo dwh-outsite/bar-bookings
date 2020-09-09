@@ -37,8 +37,8 @@ class EventType extends SushiModel
             ],
         ],
         [
-            'id' => 'members-bar',
-            'name' => 'Bar for Members',
+            'id' => 'other',
+            'name' => 'Other',
             'widget' => null,
             'custom_fields' => [],
         ],
