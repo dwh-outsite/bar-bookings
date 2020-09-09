@@ -3,7 +3,6 @@
 namespace App;
 
 use App\View\Widgets\DinnerStatistics;
-use Illuminate\Support\Collection;
 
 class EventType extends SushiModel
 {
@@ -36,6 +35,12 @@ class EventType extends SushiModel
                     'validation' => 'array',
                 ],
             ],
+        ],
+        [
+            'id' => 'members-bar',
+            'name' => 'Bar for Members',
+            'widget' => null,
+            'custom_fields' => [],
         ],
     ];
 
