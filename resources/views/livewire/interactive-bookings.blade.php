@@ -22,9 +22,14 @@
                         </div>
                     @endif
                     {{ $booking->name }}
-                    @if($booking->twoseat)
+                    @if ($booking->twoseat)
                         <div class="bg-orange-200 px-2 py-1 rounded-full uppercase tracking-wide text-xs ml-2 font-semibold">
                             two-seat
+                        </div>
+                    @endif
+                    @if (\Illuminate\Support\Str::contains($booking->email, 'kennismaken'))
+                        <div class="bg-orange-200 px-2 py-1 rounded-full uppercase tracking-wide text-xs ml-2 font-semibold">
+                            KMG
                         </div>
                     @endif
                 </div>
