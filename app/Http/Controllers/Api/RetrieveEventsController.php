@@ -12,7 +12,7 @@ class RetrieveEventsController extends Controller
 {
     public function __invoke(Request $request)
     {
-        Log::create(['ip' => $request->ip()]);
+        Log::create(['ip' => $request->ip(), 'details' => $request->userAgent()]);
 
         return EventResource::collection(
             Event::endDateInTheFuture()
