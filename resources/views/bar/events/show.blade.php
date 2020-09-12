@@ -20,10 +20,14 @@
                 <h1 class="text-4xl font-light">
                     {{ $event->name }}
                 </h1>
-                <p class="text-gray-500 mt-2">
+                <div class="text-gray-500 mt-2">
                     {{ $event->start->format('D d-m-Y H:i') }} -
-                    {{ $event->end->format('D d-m-Y H:i') }}
-                </p>
+                    {{ $event->end->format('H:i') }} |
+
+                    <a href="{{ route('bar.events.index') }}">
+                        <span class="underline">Select other event</span>
+                    </a>
+                </div>
             </div>
             <livewire:counters :event="$event" />
             <div class="flex-1 text-right">
@@ -36,7 +40,7 @@
                 <livewire:interactive-bookings title="Open Bookings" :event="$event" :filter-active="true" :filter-present="false" />
             </div>
             <div class="w-1/3 px-2 h-full">
-                <livewire:interactive-bookings title="Present Bookings" :event="$event" :filter-active="true" :filter-present="true" :filter-left="false" />
+                <livewire:interactive-bookings title="Present" :event="$event" :filter-active="true" :filter-present="true" :filter-left="false" />
             </div>
             <div class="w-1/3 pl-2 h-full flex flex-col space-y-4">
                 <livewire:interactive-bookings title="Left" :event="$event" :filter-left="true" />

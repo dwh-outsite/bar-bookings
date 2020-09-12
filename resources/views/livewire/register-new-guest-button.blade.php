@@ -2,7 +2,7 @@
     <button
         wire:click="register"
         class="
-            font-bold py-4 px-6 rounded-full text-gray-100 bg-purple-500 hover:bg-purple-700
+            font-bold py-4 px-6 rounded-full text-gray-100 bg-purple-500 hover:bg-purple-700 shadow
             uppercase tracking-wider
             inline-flex items-center
         "
