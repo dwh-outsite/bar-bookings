@@ -11,7 +11,7 @@
 }
 
 .touch-scrollbar ::-webkit-scrollbar-thumb {
-    @apply bg-purple-200 rounded-md
+    @apply bg-purple-200 rounded-md m-2
 }
 
 .touch-scrollbar ::-webkit-scrollbar-thumb:hover {
@@ -20,6 +20,10 @@
 
 .flex-1-1-0 {
     flex: 1 1 0;
+}
+
+#bar button:focus {
+    @apply outline-none
 }
 
 @tailwind utilities;
