@@ -105,6 +105,17 @@ class Booking extends Model
         $query->where('status', 'active');
     }
 
+    public function scopePresent(Builder $query)
+    {
+        $query->where('status', 'active')
+            ->whereNotNull('present');
+    }
+
+    public function scopeLeft(Builder $query)
+    {
+        $query->where('status', 'left');
+    }
+
     public function scopeTwoseat(Builder $query)
     {
         $query->where('twoseat', true);

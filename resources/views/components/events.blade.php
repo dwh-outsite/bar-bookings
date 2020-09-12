@@ -15,7 +15,11 @@
                         <div class="text-gray-900">{{ $event->name }}</div>
                     </div>
                     <div class="text-gray-600 hidden md:block">
-                        {{ $event->capacity - $event->availableSeats() }} / {{ $event->capacity }}
+                        @if ($event->hasEndDateInTheFuture())
+                            {{ $event->capacity - $event->availableSeats() }} / {{ $event->capacity }}
+                        @else
+                            {{ $event->numberOfActualAttendees() }}
+                        @endif
                     </div>
                 </div>
             </a>

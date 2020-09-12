@@ -41,9 +41,20 @@ class Event extends Model
         return $this->bookings()->active()->count() + $this->bookings()->twoseat()->active()->count();
     }
 
+    public function numberOfActualAttendees()
+    {
+        return $this->bookings()->present()->count() + $this->bookings()->twoseat()->present()->count()
+            + $this->bookings()->left()->count() + $this->bookings()->twoseat()->left()->count();
+    }
+
     public function hasStarted()
     {
         return Carbon::now()->greaterThanOrEqualTo($this->start);
+    }
+
+    public function hasEndDateInTheFuture()
+    {
+        return $this->end->greaterThanOrEqualTo(Carbon::now());
     }
 
     public function scopeEndDateInTheFuture($query, $includedPastHours = 0)

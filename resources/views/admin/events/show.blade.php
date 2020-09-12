@@ -39,9 +39,15 @@
                     <div class="border border-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide md:mr-4 my-4 md:my-0">
                         <strong>{{ $event->twoseat_capacity - $event->availableTwoseats()  }} / {{ $event->twoseat_capacity }}</strong> two-seats
                     </div>
-                    <div class="bg-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide">
-                        <strong>{{ $event->numberOfAttendees() }}</strong> people
-                    </div>
+                    @if ($event->hasStarted())
+                        <div class="bg-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide">
+                            <strong>{{ $event->numberOfActualAttendees() }}</strong> visited people
+                        </div>
+                    @else
+                        <div class="bg-purple-200 px-4 py-3 rounded-full font-semibold uppercase tracking-wide">
+                            <strong>{{ $event->numberOfAttendees() }}</strong> people
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -50,7 +56,9 @@
             {{ $event->eventType->widget($event)->render() }}
         @endif
 
-        <x-bookings title="Active Bookings" :bookings="$event->bookings->filter->isActive()" />
+        <x-bookings title="Open Bookings" :bookings="$event->bookings->filter->isActive()->reject->isPresent()" />
+        <x-bookings title="Present" :bookings="$event->bookings->filter->isActive()->filter->isPresent()" />
+        <x-bookings title="Left" :bookings="$event->bookings->filter->hasLeft()" />
         <x-bookings title="Canceled Bookings" :bookings="$event->bookings->filter->isCanceled()" />
 
         <a href="{{ route('admin.events.destroy', $event) }}"

@@ -1,7 +1,11 @@
 <div class="flex flex-col break-words bg-white border border-2 rounded shadow-md mb-6">
 
-    <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
+    <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0 flex justify-between items-center">
         {{ $title }}
+
+        <span class="bg-gray-500 text-white rounded-full font-semibold text-xs px-2 py-1">
+            {{ $bookings->count() }}
+        </span>
     </div>
 
     <div class="w-full">
