@@ -56,9 +56,6 @@ class Booking extends Model
         return [
             'name' => ['required', 'string', 'max:255'],
             'event_id' => ['required', 'integer'],
-            'email' => ['required_if:ggd_consent,true', 'email', 'max:255'],
-            'ggd_consent' => ['nullable', 'boolean'],
-            'phone_number' => ['nullable', 'string', 'required_if:ggd_consent,true'],
             'twoseat' => ['boolean'],
         ];
     }

@@ -24,11 +24,7 @@ class WelcomeDialog extends Component
 
     public string $name = '';
     public bool $health_check = false;
-    public bool $ggd_consent = false;
-    public string $email = '';
-    public string $phone_number = '';
     public $twoseat = false;
-    public $table_number;
     public $event_id;
 
     protected $listeners = [
@@ -101,7 +97,7 @@ class WelcomeDialog extends Component
 
         event(new DeactivateTablet());
 
-        $this->reset('name', 'ggd_consent', 'email', 'phone_number', 'twoseat', 'health_check', 'booking', 'table_number');
+        $this->reset('name', 'twoseat', 'health_check', 'booking');
         $this->resetValidation();
     }
 
