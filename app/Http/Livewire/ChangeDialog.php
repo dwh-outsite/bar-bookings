@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Booking;
+use App\Events\DeactivateTablet;
 use App\Events\ShowDetailsFormOnTablet;
 use App\Events\ShowVisitorCodeOnTablet;
 use App\Http\Middleware\BarAuthentication;
@@ -31,6 +32,8 @@ class ChangeDialog extends Component
 
     public function close()
     {
+        event(new DeactivateTablet());
+
         $this->reset();
     }
 
