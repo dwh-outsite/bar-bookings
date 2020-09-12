@@ -30,7 +30,14 @@
                         </div>
                     </div>
                     @if (!$readOnly)
-                        <div class="text-gray-700 md:w-2/6 mb-2">{{ $booking->email }}</div>
+                        <div class="text-gray-700 md:w-2/6 mb-2 flex items-center">
+                            {{ $booking->email }}
+                            @if ($booking->ggd_consent)
+                                <div class="border border-gray-700 px-2 py-1 rounded-full uppercase tracking-wide text-xs ml-2 font-semibold">
+                                    GGD
+                                </div>
+                            @endif
+                        </div>
                         <div class="text-gray-700 md:w-1/6 mb-2">{{ $booking->created_at->format('d-m-Y H:i:s') }}</div>
                         <div class="md:w-1/6 md:text-right mb-2">
                             @if ($booking->isActive())
