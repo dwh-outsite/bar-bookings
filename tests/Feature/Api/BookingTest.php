@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\Booking;
-use App\Event;
 use App\Mail\BookingConfirmation;
-use Book;
+use Database\Factories\BookingFactory;
+use Database\Factories\EventFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -26,7 +26,7 @@ class BookingTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $event = factory(Event::class)->create();
+        $event = EventFactory::new()->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -48,7 +48,7 @@ class BookingTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $event = factory(Event::class)->create();
+        $event = EventFactory::new()->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -69,7 +69,7 @@ class BookingTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $event = factory(Event::class)->create();
+        $event = EventFactory::new()->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -88,7 +88,7 @@ class BookingTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $event = factory(Event::class)->create(['capacity' => 10, 'twoseat_capacity' => 4]);
+        $event = EventFactory::new()->state(['capacity' => 10, 'twoseat_capacity' => 4])->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -108,7 +108,7 @@ class BookingTest extends TestCase
     /** @test */
     public function multiple_guests_can_make_a_booking_for_the_same_event()
     {
-        $event = factory(Event::class)->create();
+        $event = EventFactory::new()->create();
 
         $responseA = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -132,13 +132,13 @@ class BookingTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $pastEvent = factory(Event::class)->state('past')->create();
-        $futureEvent = factory(Event::class)->create();
+        $pastEvent = EventFactory::new()->past()->create();
+        $futureEvent = EventFactory::new()->create();
 
-        factory(Booking::class)->create([
+        BookingFactory::new()->state([
             'event_id' => $pastEvent->id,
             'email' => 'booking@casperboone.nl'
-        ]);
+        ])->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $futureEvent->id,
@@ -154,12 +154,12 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_can_make_a_booking_after_canceling_a_previous_booking()
     {
-        $canceledBooking = factory(Booking::class)->create([
+        $canceledBooking = BookingFactory::new()->state([
             'status' => 'canceled',
             'email' => 'booking@casperboone.nl',
-        ]);
+        ])->create();
 
-        $event = factory(Event::class)->create();
+        $event = EventFactory::new()->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -177,7 +177,7 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_cannot_make_two_bookings_for_the_same_event()
     {
-        $event = factory(Event::class)->create();
+        $event = EventFactory::new()->create();
 
         $responseA = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -200,8 +200,8 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_cannot_make_two_bookings_for_the_same_event_type()
     {
-        $eventA = factory(Event::class)->create(['event_type_id' => 'bar']);
-        $eventB = factory(Event::class)->create(['event_type_id' => 'bar']);
+        $eventA = EventFactory::new()->state(['event_type_id' => 'bar'])->create();
+        $eventB = EventFactory::new()->state(['event_type_id' => 'bar'])->create();
 
         $responseA = $this->postJson('/api/bookings', [
             'event_id' => $eventA->id,
@@ -224,8 +224,8 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_can_make_two_bookings_for_events_of_a_different_type()
     {
-        $eventBar = factory(Event::class)->create(['event_type_id' => 'bar']);
-        $eventDinner = factory(Event::class)->create(['event_type_id' => 'dinner']);
+        $eventBar = EventFactory::new()->state(['event_type_id' => 'bar'])->create();
+        $eventDinner = EventFactory::new()->state(['event_type_id' => 'dinner'])->create();
 
         $responseA = $this->postJson('/api/bookings', [
             'event_id' => $eventBar->id,
@@ -249,7 +249,7 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_cannot_make_a_booking_with_ggd_consent_but_without_a_phone_number()
     {
-        $event = factory(Event::class)->create();
+        $event = EventFactory::new()->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -266,8 +266,8 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_cannot_make_a_booking_if_an_event_is_full()
     {
-        $event = factory(Event::class)->create(['capacity' => 30]);
-        factory(Booking::class, 30)->create(['event_id' => $event->id]);
+        $event = EventFactory::new()->state(['capacity' => 30])->create();
+        BookingFactory::new()->state(['event_id' => $event->id])->count(30)->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -281,12 +281,11 @@ class BookingTest extends TestCase
         Mail::assertNothingQueued();
     }
 
-
     /** @test */
     public function a_guest_cannot_make_a_twoseat_booking_if_all_twoseats_are_booked()
     {
-        $event = factory(Event::class)->create(['capacity' => 3, 'twoseat_capacity' => 2]);
-        factory(Booking::class, 2)->create(['event_id' => $event->id, 'twoseat' => true]);
+        $event = EventFactory::new()->state(['capacity' => 3, 'twoseat_capacity' => 2])->create();
+        BookingFactory::new()->state(['event_id' => $event->id, 'twoseat' => true])->count(2)->create();
 
         $this->assertEquals(1, $event->availableSeats());
         $this->assertEquals(0, $event->availableTwoseats());
@@ -307,8 +306,8 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_can_make_a_regular_booking_if_all_twoseats_are_booked()
     {
-        $event = factory(Event::class)->create(['capacity' => 3, 'twoseat_capacity' => 2]);
-        factory(Booking::class, 2)->create(['event_id' => $event->id, 'twoseat' => true]);
+        $event = EventFactory::new()->state(['capacity' => 3, 'twoseat_capacity' => 2])->create();
+        BookingFactory::new()->state(['event_id' => $event->id, 'twoseat' => true])->count(2)->create();
 
         $this->assertEquals(1, $event->availableSeats());
         $this->assertEquals(0, $event->availableTwoseats());
@@ -329,9 +328,7 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_receives_an_email_after_booking()
     {
-        $event = factory(Event::class)->create([
-            'name' => '1 juno spektakelfeest',
-        ]);
+        $event = EventFactory::new()->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -354,9 +351,9 @@ class BookingTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $event = factory(Event::class)->create([
+        $event = EventFactory::new()->state([
             'event_type_id' => 'dinner',
-        ]);
+        ])->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -379,9 +376,9 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_cannot_make_a_booking_with_invalid_or_missing_custom_fields()
     {
-        $event = factory(Event::class)->create([
+        $event = EventFactory::new()->state([
             'event_type_id' => 'dinner',
-        ]);
+        ])->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -401,9 +398,9 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_can_make_a_booking_with_extra_custom_fields_but_those_are_filtered()
     {
-        $event = factory(Event::class)->create([
+        $event = EventFactory::new()->state([
             'event_type_id' => 'dinner',
-        ]);
+        ])->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,
@@ -424,9 +421,9 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_can_make_a_booking_with_custom_fields_for_the_wrong_event_but_those_are_filtered()
     {
-        $event = factory(Event::class)->create([
+        $event = EventFactory::new()->state([
             'event_type_id' => 'bar',
-        ]);
+        ])->create();
 
         $response = $this->postJson('/api/bookings', [
             'event_id' => $event->id,

@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Booking;
 use App\Event;
+use Database\Factories\BookingFactory;
+use Database\Factories\EventFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
@@ -17,7 +18,7 @@ class EventsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $events = factory(Event::class, 10)->create();
+        $events = EventFactory::new()->count(10)->create();
 
         $response = $this->getJson('/api/events');
 
@@ -39,10 +40,10 @@ class EventsTest extends TestCase
     /** @test */
     public function a_guest_can_retrieve_events_going_on_now()
     {
-        $events = factory(Event::class, 1)->create([
+        $events = EventFactory::new()->state([
             'start' => Carbon::now()->subHour(),
             'end' => Carbon::now()->addHour(),
-        ]);
+        ])->count(1)->create();
 
         $response = $this->getJson('/api/events');
 
@@ -55,12 +56,12 @@ class EventsTest extends TestCase
     /** @test */
     public function a_guest_can_filter_bar_events()
     {
-        $barEvents = factory(Event::class, 1)->create([
+        $barEvents = EventFactory::new()->state([
             'event_type_id' => 'bar'
-        ]);
-        $dinnerEvents = factory(Event::class, 1)->create([
+        ])->count(1)->create();
+        $dinnerEvents = EventFactory::new()->state([
             'event_type_id' => 'dinner'
-        ]);
+        ])->count(1)->create();
 
         $response = $this->getJson('/api/events?event_type_id=bar');
 
@@ -76,12 +77,12 @@ class EventsTest extends TestCase
     /** @test */
     public function a_guest_can_filter_dinner_events()
     {
-        $barEvents = factory(Event::class, 1)->create([
+        $barEvents = EventFactory::new()->state([
             'event_type_id' => 'bar'
-        ]);
-        $dinnerEvents = factory(Event::class, 1)->create([
+        ])->count(1)->create();
+        $dinnerEvents = EventFactory::new()->state([
             'event_type_id' => 'dinner'
-        ]);
+        ])->count(1)->create();
 
         $response = $this->getJson('/api/events?event_type_id=dinner');
 
@@ -97,8 +98,8 @@ class EventsTest extends TestCase
     /** @test */
     public function a_guest_cannot_retrieve_expired_events()
     {
-        $pastEvents = factory(Event::class, 10)->state('past')->create();
-        $futureEvents = factory(Event::class, 10)->create();
+        $pastEvents = EventFactory::new()->past()->count(10)->create();
+        $futureEvents = EventFactory::new()->count(10)->create();
 
         $response = $this->getJson('/api/events');
 
@@ -115,8 +116,8 @@ class EventsTest extends TestCase
     /** @test */
     public function a_guest_can_retrieve_the_remaining_available_seats()
     {
-        $events = factory(Event::class, 1)->create(['capacity' => '40']);
-        factory(Booking::class, 10)->create(['event_id' => $events->first()->id]);
+        $events = EventFactory::new()->state(['capacity' => '40'])->count(1)->create();
+        BookingFactory::new()->state(['event_id' => $events->first()->id])->count(10)->create();
 
         $response = $this->getJson('/api/events');
 

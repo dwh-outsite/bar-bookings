@@ -1,33 +1,52 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Booking;
 use Carbon\Carbon;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Booking::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'event_id' => fn () => factory(\App\Event::class)->create()->id,
-    ];
-});
+class BookingFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Booking::class;
 
-$factory->state(Booking::class, 'canceled', function (Faker $faker) {
-    return [
-        'status' => 'canceled',
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'event_id' => EventFactory::new(),
+        ];
+    }
 
-$factory->state(Booking::class, 'twoseat', function (Faker $faker) {
-    return [
-        'twoseat' => true,
-    ];
-});
+    public function canceled()
+    {
+        return $this->state([
+            'status' => 'canceled',
+        ]);
+    }
 
-$factory->state(Booking::class, 'present', function (Faker $faker) {
-    return [
-        'present' => Carbon::now()->subMinute(),
-    ];
-});
+    public function twoseat()
+    {
+        return $this->state([
+            'twoseat' => true,
+        ]);
+    }
+
+    public function present()
+    {
+        return $this->state([
+            'present' => Carbon::now()->subMinute(),
+        ]);
+    }
+}

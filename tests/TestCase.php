@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use App\User;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -11,6 +11,6 @@ abstract class TestCase extends BaseTestCase
 
     public function actingAsAdmin()
     {
-        return $this->actingAs(factory(User::class)->create());
+        return $this->actingAs(UserFactory::new()->create());
     }
 }

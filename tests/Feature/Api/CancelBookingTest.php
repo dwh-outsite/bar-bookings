@@ -3,12 +3,10 @@
 namespace Tests\Feature;
 
 use App\Mail\BookingCanceled;
-use App\Mail\BookingConfirmation;
+use Database\Factories\BookingFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
-use App\Event;
-use App\Booking;
 
 class CancelBookingTest extends TestCase
 {
@@ -26,7 +24,7 @@ class CancelBookingTest extends TestCase
     /** @test */
     public function a_guest_can_cancel_a_booking()
     {
-        $booking = factory(Booking::class)->create(['email' => 'booking@casperboone.nl']);
+        $booking = BookingFactory::new()->state(['email' => 'booking@casperboone.nl'])->create();
 
         $response = $this->get($booking->cancelationUrl());
 

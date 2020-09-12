@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Booking;
-use App\Event;
+use Database\Factories\BookingFactory;
+use Database\Factories\EventFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
@@ -25,10 +25,10 @@ class EventsTest extends TestCase
     {
         $this->actingAsAdmin();
 
-        $futureEventA = factory(Event::class)->create(['name' => 'Bar Night Lite']);
-        $futureEventB = factory(Event::class)->create(['name' => 'Bar Night Deluxe']);
-        $pastEventA = factory(Event::class)->state('past')->create(['name' => 'Bar Night Extra']);
-        $pastEventB = factory(Event::class)->state('past')->create(['name' => 'Bar Night Royale']);
+        $futureEventA = EventFactory::new()->state(['name' => 'Bar Night Lite'])->create();
+        $futureEventB = EventFactory::new()->state(['name' => 'Bar Night Deluxe'])->create();
+        $pastEventA = EventFactory::new()->past()->state(['name' => 'Bar Night Extra'])->create();
+        $pastEventB = EventFactory::new()->past()->state(['name' => 'Bar Night Royale'])->create();
 
         $response = $this->get(route('admin.events.index'));
 
@@ -41,7 +41,7 @@ class EventsTest extends TestCase
     /** @test */
     public function a_guest_cannot_see_event_details()
     {
-        $event = factory(Event::class)->create();
+        $event = EventFactory::new()->create();
 
         $response = $this->get(route('admin.events.show', $event));
 
@@ -53,14 +53,14 @@ class EventsTest extends TestCase
     {
         $this->actingAsAdmin();
 
-        $event = factory(Event::class)->create([
+        $event = EventFactory::new()->state([
             'name' => 'Bar Night Superb',
             'capacity' => 783,
             'start' => Carbon::parse('2020-05-20 18:00'),
             'end' => Carbon::parse('2020-05-20 22:00')
-        ]);
-        $bookingA = factory(Booking::class)->create(['name' => 'Golden Stark', 'event_id' => $event->id]);
-        $bookingB = factory(Booking::class)->create(['name' => 'Viola Hansen', 'event_id' => $event->id]);
+        ])->create();
+        $bookingA = BookingFactory::new()->state(['name' => 'Golden Stark', 'event_id' => $event->id])->create();
+        $bookingB = BookingFactory::new()->state(['name' => 'Viola Hansen', 'event_id' => $event->id])->create();
 
         $response = $this->get(route('admin.events.show', $event));
 
