@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\Console\Commands\AnonymizeOldBookings;
 use Database\Factories\BookingFactory;
+use Database\Factories\EventFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
@@ -19,7 +20,7 @@ class AnonymizeOldBookingsTest extends TestCase
             'name' => 'Henk',
             'email' => 'henk@online.nl',
             'phone_number' => '0612345678',
-            'created_at' => Carbon::parse('15 days ago'),
+            'event_id' => EventFactory::new()->state(['end' => Carbon::parse('15 days ago')]),
         ])->create();
 
         $this->artisan(AnonymizeOldBookings::class);
@@ -37,7 +38,7 @@ class AnonymizeOldBookingsTest extends TestCase
             'name' => 'Henk',
             'email' => 'henk@online.nl',
             'phone_number' => '0612345678',
-            'created_at' => Carbon::parse('13 days ago'),
+            'event_id' => EventFactory::new()->state(['end' => Carbon::parse('13 days ago')]),
         ])->create();
 
         $this->artisan(AnonymizeOldBookings::class);
