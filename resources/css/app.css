@@ -3,15 +3,15 @@
 @tailwind components;
 
 .touch-scrollbar ::-webkit-scrollbar {
-    @apply w-12
+    @apply w-10
 }
 
 .touch-scrollbar ::-webkit-scrollbar-track {
-    @apply bg-purple-100
+    @apply bg-gray-100
 }
 
 .touch-scrollbar ::-webkit-scrollbar-thumb {
-    @apply bg-purple-200 rounded-md m-2
+    @apply bg-gray-300
 }
 
 .touch-scrollbar ::-webkit-scrollbar-thumb:hover {
