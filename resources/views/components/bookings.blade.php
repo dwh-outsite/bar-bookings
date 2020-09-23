@@ -1,4 +1,4 @@
-<div class="flex flex-col break-words bg-white border border-2 rounded shadow-md mb-6">
+<div class="flex flex-col break-words bg-white rounded shadow-lg mb-8 overflow-hidden">
 
     <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0 flex justify-between items-center">
         {{ $title }}
@@ -10,7 +10,7 @@
 
     <div class="w-full">
         @forelse($bookings->sortBy->name as $booking)
-            <div class="p-6 pb-4 border-b hover:bg-purple-100">
+            <div class="p-6 pb-4 border-t border-gray-200 hover:bg-purple-100">
                 <div class="md:flex items-center">
                     <div class="md:w-2/6 mb-2">
                         <div class="flex items-center">

@@ -1,4 +1,4 @@
-<div class="flex flex-col break-words bg-white border border-2 rounded shadow-md mb-6">
+<div class="flex flex-col break-words bg-white rounded shadow-lg mb-8">
 
     <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
         {{ $title }}
@@ -7,7 +7,7 @@
     <div class="w-full">
         @forelse($events as $event)
             <a href="{{ route($area.'.events.show', $event) }}">
-                <div class="p-6 border-b flex hover:bg-purple-100">
+                <div class="p-6 border-t border-gray-200 flex hover:bg-purple-100">
                     <div class="flex-1 flex">
                         <div class="text-gray-600 pr-5 text-right w-40">
                             {{ $event->start->format('D d-m H:i') }}

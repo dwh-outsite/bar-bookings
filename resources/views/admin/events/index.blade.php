@@ -3,7 +3,7 @@
 @section('content')
     <div class="md:w-4/5 md:mx-auto">
 
-        <div class="flex items-center mt-6 mb-12">
+        <div class="flex items-center mt-8 mb-12">
             <h1 class="flex-1 text-4xl font-light">
                 Events
             </h1>
