@@ -1,6 +1,6 @@
-<div class="md:flex md:space-x-4">
+<div class="md:flex md:space-x-6">
 
-    <div class="flex-1 flex flex-col break-words bg-white border border-2 rounded shadow-md mb-6">
+    <div class="flex-1 flex flex-col break-words bg-white rounded shadow-lg mb-8 overflow-hidden">
         <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
             Diets
         </div>
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="flex-1 flex flex-col break-words bg-white border border-2 rounded shadow-md mb-6">
+    <div class="flex-1 flex flex-col break-words bg-white rounded shadow-lg mb-8 overflow-hidden">
         <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
             Teams
         </div>
