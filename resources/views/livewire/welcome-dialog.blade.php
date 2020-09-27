@@ -32,6 +32,14 @@
 
                 @if ($state == 'name')
 
+                    @if ($event->availableSeats() <= 0)
+                        <div class="bg-red-500 text-white rounded p-4 mb-4">
+                            <span class="font-bold">Please note:</span>
+                            this event is full! If you have a good reason to another guest, this is still possible.
+                            Otherwise, ask the guest to come back another time.
+                        </div>
+                    @endif
+
                     <div class="flex flex-wrap mb-6">
                         <label for="name" class="block text-gray-700 text-sm font-bold mb-2">
                             {{ __('Name') }}
@@ -85,25 +93,36 @@
                     </label>
 
                 @elseif ($state == 'contact_details')
+                    <div class="bg-red-500 text-white rounded p-4 mb-4">
+                        <span class="font-bold">Please note:</span>
+                        <em>every</em> guest <em>has to</em> scan the QR code
+                        <div class="text-xs mt-1">(or use any of the alternatives described below)</div>
+                    </div>
+
                     The QR code for the registration of personal details of the visitor is now being shown on the tablet.
-                    If the visitor cannot scan a QR code, they can visit <strong>dwhdelft.nl/welcome</strong> and enter code <strong>{{ $booking->visitor_code }}</strong>.<br />
+                    If the visitor cannot scan a QR code, they can visit <strong>dwhdelft.nl/welcome</strong> and enter code <strong>{{ $booking->visitor_code }}</strong> (also shown on the tablet).<br />
+                    <br />
+                    Every guest has a unique (QR) code.<br />
                     <br />
                     Alternatively, you can show the form for entering personal details on the tablet by pressing the button below.
+                    Only use this if the guest cannot use their phone since it puts you in charge of registering their tables.
 
-                    <div class="mt-4 flex space-x-4">
-                        <button wire:click="showVisitorCodeOnTablet" class="flex-1 font-bold py-3 px-6 rounded border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white">
+                    <div class="my-4 flex space-x-4">
+                        <button wire:click="showVisitorCodeOnTablet" class="w-2/3 font-bold py-3 px-6 rounded border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white">
                             Show QR code on tablet
+                            <div class="text-xs font-normal">Active by default</div>
                         </button>
-                        <button wire:click="showVisitorDetailsFormOnTablet" class="flex-1 font-bold py-3 px-6 rounded border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white">
+                        <button wire:click="showVisitorDetailsFormOnTablet" class="w-1/3 font-bold py-3 px-6 rounded border-2 border-purple-200 text-purple-400 hover:bg-purple-500 hover:text-white">
                             Show form on tablet
                         </button>
                     </div>
 
+                    As soon as the guest has scanned their code, they can take a seat and fill out the form at their table.
 
                     <h2 class="font-semibold text-purple-500 mt-6 mb-2 tracking-wide uppercase border-b border-purple-500 pb-2">
                         Current contact details
                     </h2>
-                    <div class="text-sm text-gray-700">(updated automatically when changed on tablet)</div>
+                    <div class="text-sm text-gray-700">(updated automatically)</div>
 
                     <div wire:poll>
                         <div class="mt-2">
