@@ -8,7 +8,7 @@
                 Events
             </h1>
             <a href="{{ route('admin.events.create') }}">
-                <button class="font-bold py-2 px-4 rounded leading-normal text-purple-500 bg-white border border-purple-500 hover:text-white hover:bg-purple-500">
+                <button class="font-bold py-3 px-4 rounded leading-normal text-purple-500 border border-purple-500 bg-white hover:text-white hover:bg-purple-500 uppercase text-xs tracking-widest">
                     Create New Event
                 </button>
             </a>

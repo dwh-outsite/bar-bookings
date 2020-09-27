@@ -1,4 +1,4 @@
-<div class="flex flex-col break-words bg-white rounded shadow-lg mb-8">
+<div class="flex flex-col break-words bg-white rounded shadow-lg mb-8 overflow-hidden">
 
     <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
         {{ $title }}
