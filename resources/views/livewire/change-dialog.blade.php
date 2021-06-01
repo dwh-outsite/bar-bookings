@@ -68,7 +68,7 @@
 
                 @if ($booking->ggd_consent)
                     <div class="flex space-x-2 justify-center">
-                        @foreach(range(1, 8) as $i)
+                        @foreach(range(1, 9) as $i)
                             @if (optional($booking->currentTablePlacement())->table_number == $i)
                                 <div class="flex items-center justify-center w-12 h-12 rounded bg-orange-500 text-white border border-orange-500 font-semibold">
                                     {{ $i }}
