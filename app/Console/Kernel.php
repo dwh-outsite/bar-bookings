@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\AnonymizeOldBookings;
+use App\Console\Commands\SendBookingReminders;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command(AnonymizeOldBookings::class)->daily();
+         $schedule->command(SendBookingReminders::class)->hourlyAt(5);
     }
 
     /**
