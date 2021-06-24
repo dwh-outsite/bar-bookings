@@ -20,6 +20,7 @@ class EventType extends SushiModel
             'name' => 'Bar',
             'widget' => null,
             'custom_fields' => [],
+            'single_booking' => true,
         ],
         [
             'id' => 'dinner',
@@ -35,12 +36,21 @@ class EventType extends SushiModel
                     'validation' => 'array',
                 ],
             ],
+            'single_booking' => true,
+        ],
+        [
+            'id' => 'worqspaces',
+            'name' => 'Worqspaces',
+            'widget' => null,
+            'custom_fields' => [],
+            'single_booking' => false,
         ],
         [
             'id' => 'other',
             'name' => 'Other',
             'widget' => null,
             'custom_fields' => [],
+            'single_booking' => true,
         ],
     ];
 

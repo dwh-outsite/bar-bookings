@@ -198,6 +198,31 @@ class BookingTest extends TestCase
     }
 
     /** @test */
+    public function a_guest_cannot_make_two_bookings_for_the_same_event_unless_the_event_type_allows_it()
+    {
+        $event = EventFactory::new()
+            ->state(['event_type_id' => 'worqspaces'])
+            ->create();
+
+        $responseA = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Casper',
+            'email' => 'booking@casperboone.nl'
+        ]);
+
+        $responseB = $this->postJson('/api/bookings', [
+            'event_id' => $event->id,
+            'name' => 'Not Casper',
+            'email' => 'booking@casperboone.nl'
+        ]);
+
+        $responseA->assertSuccessful();
+        $responseB->assertSuccessful();
+        $this->assertEquals(2, Booking::count());
+        Mail::assertQueued(BookingConfirmation::class, 2);
+    }
+
+    /** @test */
     public function a_guest_cannot_make_two_bookings_for_the_same_event_type()
     {
         $eventA = EventFactory::new()->state(['event_type_id' => 'bar'])->create();

@@ -23,6 +23,10 @@ class GuestCanOnlyHaveOneOpenBookingPerEvent implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (!$this->event->eventType->single_booking) {
+            return true;
+        }
+
         return !$this->event->bookings()->where('email', $value)->active()->endDateInTheFuture()->exists();
     }
 
