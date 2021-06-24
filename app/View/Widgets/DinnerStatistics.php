@@ -14,6 +14,7 @@ class DinnerStatistics {
     {
         return $this->event->bookings
             ->filter->isActive()
+            ->filter->hasCustomFields()
             ->map->custom_fields
             ->map->diet
             ->flatten()
@@ -24,6 +25,7 @@ class DinnerStatistics {
     {
         return $this->event->bookings
             ->filter->isActive()
+            ->filter->hasCustomFields()
             ->map->custom_fields
             ->map->team
             ->flatten()

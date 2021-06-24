@@ -165,6 +165,11 @@ class Booking extends Model
         return !is_null($this->left);
     }
 
+    public function hasCustomFields()
+    {
+        return !is_null($this->custom_fields);
+    }
+
     public function getVisitorCodeAttribute($visitorCode)
     {
         if (is_null($visitorCode)) {
