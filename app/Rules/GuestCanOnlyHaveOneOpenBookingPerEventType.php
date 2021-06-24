@@ -25,6 +25,10 @@ class GuestCanOnlyHaveOneOpenBookingPerEventType implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (!$this->event->eventType->single_booking) {
+            return true;
+        }
+
         return !Booking::where('email', $value)
             ->active()
             ->whereHas('event', function (Builder $eventQuery) {
