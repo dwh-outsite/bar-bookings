@@ -16,6 +16,8 @@ You have indicated that you are coming with **two persons** and that you are all
 @endif
 In case you cannot make it, please cancel your booking using the button below.
 
+{{ $booking->event->email_text }}
+
 @component('mail::panel')
 
 ## Reservering Annuleren / Cancel Booking

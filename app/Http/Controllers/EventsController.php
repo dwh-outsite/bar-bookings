@@ -110,6 +110,7 @@ class EventsController extends Controller
             'twoseat_capacity' => 'required|integer',
             'start' => 'required|date|after:now',
             'end' => 'required|date|after:start',
+            'email_text' => 'string',
         ]);
     }
 }

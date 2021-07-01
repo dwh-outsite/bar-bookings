@@ -13,6 +13,8 @@ at **{{ $booking->event->start->format('H:i')  }}** uur.
 You have indicated that you are coming with **two persons** and that you are allowed to be together within 1.5 meter.
 @endif
 
+{{ $booking->event->email_text }}
+
 @component('mail::panel')
 
 ## Reservering Annuleren / Cancel Booking

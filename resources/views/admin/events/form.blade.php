@@ -113,6 +113,20 @@
                     @enderror
                 </div>
 
+                <div class="flex flex-wrap mb-6">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">
+                        {{ __('Confirmation Email Text (optional)') }}:
+                    </label>
+
+                    <textarea id="email_text" rows="6" type="text" class="form-input w-full @error('email_text') border-red-500 @enderror" name="email_text">{{ old('email_text', $event->email_text ?? null) }}</textarea>
+
+                    @error('email_text')
+                    <p class="text-red-500 text-xs italic mt-4">
+                        {{ $message }}
+                    </p>
+                    @enderror
+                </div>
+
                 <button type="submit" class="inline-block align-middle text-center select-none border font-bold whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline text-gray-100 bg-purple-500 hover:bg-purple-700">
                     {{ __('Save') }}
                 </button>
