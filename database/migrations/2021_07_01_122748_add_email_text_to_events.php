@@ -14,7 +14,7 @@ class AddEmailTextToEvents extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->text('email_text')->after('twoseat_capacity');
+            $table->text('email_text')->nullable()->after('twoseat_capacity');
         });
     }
 

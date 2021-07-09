@@ -14,7 +14,7 @@ class AddDetailsColumnToLog extends Migration
     public function up()
     {
         Schema::table('logs', function (Blueprint $table) {
-            $table->text('details')->after('ip');
+            $table->text('details')->after('ip')->nullable();
         });
     }
 
