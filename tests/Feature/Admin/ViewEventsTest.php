@@ -67,7 +67,6 @@ class EventsTest extends TestCase
         $response->assertSee('Bar Night Superb');
         $response->assertSee('783');
         $response->assertSee('20-05-2020 18:00');
-        $response->assertSee('20-05-2020 22:00');
         $response->assertSee('Golden Stark');
         $response->assertSee('Viola Hansen');
     }
