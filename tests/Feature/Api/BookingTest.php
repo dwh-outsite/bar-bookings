@@ -229,6 +229,8 @@ class BookingTest extends TestCase
     /** @test */
     public function a_guest_cannot_make_two_bookings_for_the_same_event_type()
     {
+        $this->markTestSkipped('There is currently no event type where this behavior applies.');
+
         $eventA = EventFactory::new()->state(['event_type_id' => 'bar'])->create();
         $eventB = EventFactory::new()->state(['event_type_id' => 'bar'])->create();
 
