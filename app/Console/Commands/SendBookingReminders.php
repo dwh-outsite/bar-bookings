@@ -15,13 +15,16 @@ class SendBookingReminders extends Command
     public function handle()
     {
         Booking::query()
-            ->whereHas('event', fn($query) => $query->where('start', '<', now()->addHours(6)))
-            ->where('created_at', '<', today())
+            ->whereHas('event', function ($query) {
+                return $query
+                    ->where('start', '<', now()->addHours(6))
+                    ->where('start', '>', now());
+            })
+            ->where('created_at', '<', now()->subHours(16))
             ->whereNull('reminded_at')
             ->get()
             ->each(function (Booking $booking) {
                 $booking->update(['reminded_at' => now()]);
-                echo 'email henk';
                 return Mail::to($booking->email)->queue(new BookingReminder($booking));
             });
 
