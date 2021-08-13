@@ -7,12 +7,28 @@
                 </div>
 
                 @if ($booking->ggd_consent)
-                    <livewire:visitor-table-registration :booking="$booking" />
-                @else
-                    <div class="text-gray-600 text-sm leading-tight">
-                        Je hebt geen toestemming gegeven om je gegevens te delen met de GGD, je kunt daarom geen tafel registreren.
+                    <div class="mb-4">
+                        Je gegevens zijn succesvol geregistreerd!
                     </div>
                 @endif
+
+                <div class="mb-8">
+                    Fijne avond!
+                </div>
+
+                <div class="text-gray-700 text-sm leading-tight mt-1 mb-8" >
+                    <div class="mb-2">
+                        Welcome, <strong>{{ $booking->name }}</strong>!
+                    </div>
+                    @if ($booking->ggd_consent)
+                        <div class="mb-2">
+                            Your contact details have been registered successfully.
+                        </div>
+                    @endif
+                    <div class="mb-2">
+                        Enjoy your night!
+                    </div>
+                </div>
 
                 <div class="my-4 text-gray-600 text-sm leading-tight">
                     <a wire:click="openForm" class="underline">Voorkeuren wijzigen / Change preferences</a>

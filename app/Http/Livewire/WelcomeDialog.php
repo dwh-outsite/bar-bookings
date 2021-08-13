@@ -27,6 +27,8 @@ class WelcomeDialog extends Component
     public $twoseat = false;
     public $event_id;
 
+    public $new_guest = false;
+
     protected $listeners = [
         'new-guest' => 'handleNewGuest',
         'booking-present' => 'handleBookingPresent'
@@ -48,6 +50,7 @@ class WelcomeDialog extends Component
 
     public function handleNewGuest()
     {
+        $this->new_guest = true;
         $this->state = array_keys($this->states)[0];
     }
 
@@ -97,7 +100,7 @@ class WelcomeDialog extends Component
 
         event(new DeactivateTablet());
 
-        $this->reset('name', 'twoseat', 'health_check', 'booking');
+        $this->reset('name', 'twoseat', 'health_check', 'booking', 'new_guest');
         $this->resetValidation();
     }
 
@@ -121,7 +124,11 @@ class WelcomeDialog extends Component
 
             $this->emit('booking-changed');
 
-            $this->showContactDetailsOptions();
+            if ($this->new_guest) {
+                $this->showContactDetailsOptions();
+            } else {
+                $this->close();
+            }
         });
     }
 

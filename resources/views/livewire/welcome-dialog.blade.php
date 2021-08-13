@@ -32,10 +32,10 @@
 
                 @if ($state == 'name')
 
-                    @if ($event->availableSeats() <= 0)
+                    @if ($event->availableSeats() <= 0 && $new_guest)
                         <div class="bg-red-500 text-white rounded p-4 mb-4">
                             <span class="font-bold">Please note:</span>
-                            this event is full! If you have a good reason to another guest, this is still possible.
+                            this event is full! If you have a good reason to add another guest, this is still possible.
                             Otherwise, ask the guest to come back another time.
                         </div>
                     @endif
@@ -93,19 +93,16 @@
                     </label>
 
                 @elseif ($state == 'contact_details')
-                    <div class="bg-red-500 text-white rounded p-4 mb-4">
-                        <span class="font-bold">Please note:</span>
-                        <em>every</em> guest <em>has to</em> scan the QR code
-                        <div class="text-xs mt-1">(or use any of the alternatives described below)</div>
+                    <div class="bg-purple-100 text-purple-500 rounded px-4 py-2 mb-2 flex items-center">
+                        <div class="font-bold text-xl mr-4">NEW</div>
+                        <div>
+                            It's no longer necessary for every guest to scan a code, just for guests without a prior booking.<br />
+                        </div>
                     </div>
-
-                    The QR code for the registration of personal details of the visitor is now being shown on the tablet.
-                    If the visitor cannot scan a QR code, they can visit <strong>dwhdelft.nl/welcome</strong> and enter code <strong>{{ $booking->visitor_code }}</strong> (also shown on the tablet).<br />
-                    <br />
-                    Every guest has a unique (QR) code.<br />
-                    <br />
-                    Alternatively, you can show the form for entering personal details on the tablet by pressing the button below.
-                    Only use this if the guest cannot use their phone since it puts you in charge of registering their tables.
+                    <div class="bg-yellow-600 text-white rounded p-4 mb-4">
+                        <span class="font-bold">Please note:</span>
+                        if this is a guest <em>without a prior booking</em>, ask them to register themselves by showing the QR code or the form on the tablet
+                    </div>
 
                     <div class="my-4 flex space-x-4">
                         <button wire:click="showVisitorCodeOnTablet" class="w-2/3 font-bold py-3 px-6 rounded border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white">
@@ -117,12 +114,17 @@
                         </button>
                     </div>
 
+                    If the visitor cannot scan a QR code, they can visit <strong>dwhdelft.nl/welcome</strong> and enter code <strong>{{ $booking->visitor_code }}</strong> (also shown on the tablet).
+                    Every guest has a unique (QR) code.<br />
+                    <br />
+                    Alternatively, you can show the form for entering personal details on the tablet.<br />
+                    <br />
                     As soon as the guest has scanned their code, they can take a seat and fill out the form at their table.
 
-                    <h2 class="font-semibold text-purple-500 mt-6 mb-2 tracking-wide uppercase border-b border-purple-500 pb-2">
+                    <h2 class="font-semibold text-purple-500 mt-6 tracking-wide uppercase border-purple-500 pb-1">
                         Current contact details
                     </h2>
-                    <div class="text-sm text-gray-700">(updated automatically)</div>
+                    <div class="text-xs text-gray-500">updated automatically</div>
 
                     <div wire:poll>
                         <div class="mt-2">
