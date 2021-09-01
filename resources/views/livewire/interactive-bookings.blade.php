@@ -9,7 +9,7 @@
     </div>
 
     <div class="flex-1-1-0 overflow-auto" wire:poll>
-        @forelse($visibleBookings->sortBy->name as $booking)
+        @forelse($visibleBookings->sortBy('name', SORT_STRING | SORT_FLAG_CASE) as $booking)
             <div class="px-6 py-3 border-b flex items-center hover:bg-purple-100">
                 <div class="flex-1 flex items-center">
                     @if ($booking->isPresent() && !$booking->hasLeft())

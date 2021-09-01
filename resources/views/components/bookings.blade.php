@@ -9,7 +9,7 @@
     </div>
 
     <div class="w-full">
-        @forelse($bookings->sortBy->name as $booking)
+        @forelse($bookings->sortBy('name', SORT_STRING | SORT_FLAG_CASE) as $booking)
             <div class="p-6 pb-4 border-t border-gray-200 hover:bg-purple-100">
                 <div class="md:flex items-center">
                     <div class="md:w-2/6 mb-2">
