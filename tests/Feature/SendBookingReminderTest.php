@@ -108,4 +108,19 @@ class SendBookingReminderTest extends TestCase
 
         Mail::assertNothingQueued();
     }
+
+    /** @test */
+    public function do_not_remind_the_guest_when_their_booking_is_canceled()
+    {
+        Mail::fake();
+        $event = EventFactory::new()->state(['start' => now()->addHours(4)]);
+        BookingFactory::new()->for($event)->state([
+            'email' => 'henk@online.nl',
+            'created_at' => now()->subDay()
+        ])->canceled()->create();
+
+        $this->artisan(SendBookingReminders::class);
+
+        Mail::assertNothingQueued();
+    }
 }

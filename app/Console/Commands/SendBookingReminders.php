@@ -20,6 +20,7 @@ class SendBookingReminders extends Command
                     ->where('start', '<', now()->addHours(6))
                     ->where('start', '>', now());
             })
+            ->where('status', 'active')
             ->where('created_at', '<', now()->subHours(16))
             ->whereNull('reminded_at')
             ->get()
