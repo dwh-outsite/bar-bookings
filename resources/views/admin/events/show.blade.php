@@ -3,7 +3,7 @@
 @section('content')
     <div class="md:w-4/5 md:mx-auto">
 
-        <div class="flex justify-between items-center mt-8 mb-12">
+        <div class="md:flex justify-between items-center mt-8 mb-12">
             <div>
                 <h1 class="text-4xl font-light">
                     {{ $event->name }}
@@ -33,7 +33,7 @@
             </div>
 
             <a href="{{ route('admin.events.edit', $event) }}">
-                <button class="font-bold py-2 px-4 rounded leading-normal text-purple-500 border border-purple-500 bg-white hover:text-white hover:bg-purple-500">
+                <button class="mt-4 md:mt-0 font-bold py-2 px-4 rounded leading-normal text-purple-500 border border-purple-500 bg-white hover:text-white hover:bg-purple-500">
                     Edit
                 </button>
             </a>

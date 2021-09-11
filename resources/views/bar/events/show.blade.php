@@ -13,9 +13,9 @@
     <livewire:welcome-dialog :event="$event" />
     <livewire:change-dialog />
 
-    <div class="h-full flex flex-col overflow-hidden">
+    <div class="h-full md:flex flex-col md:overflow-hidden">
 
-        <div class="flex justify-between items-center mb-8">
+        <div class="md:flex justify-between items-center mb-8 space-y-4 md:space-y-0">
             <div class="flex-1">
                 <h1 class="text-4xl font-light">
                     {{ $event->name }}
@@ -35,14 +35,14 @@
             </div>
         </div>
 
-        <div class="flex-1 mb-6 flex h-full touch-scrollbar">
-            <div class="w-1/3 pr-2 h-full">
+        <div class="flex-1 mb-6 md:flex md:h-full touch-scrollbar space-y-4 md:space-y-0">
+            <div class="md:w-1/3 md:pr-2 md:h-full">
                 <livewire:interactive-bookings title="Open Bookings" :event="$event" :filter-active="true" :filter-present="false" />
             </div>
-            <div class="w-1/3 px-2 h-full">
+            <div class="md:w-1/3 md:px-2 md:h-full">
                 <livewire:interactive-bookings title="Present" :event="$event" :filter-active="true" :filter-present="true" :filter-left="false" />
             </div>
-            <div class="w-1/3 pl-2 h-full flex flex-col space-y-4">
+            <div class="md:w-1/3 md:pl-2 md:h-full md:flex flex-col space-y-4">
                 <livewire:interactive-bookings title="Left" :event="$event" :filter-left="true" />
                 <livewire:interactive-bookings title="Canceled Bookings" :event="$event" :filter-left="false" :filter-active="false" />
             </div>

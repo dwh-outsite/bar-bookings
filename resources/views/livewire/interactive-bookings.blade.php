@@ -1,4 +1,4 @@
-<div class="flex flex-col h-full break-words bg-white rounded overflow-hidden shadow-md">
+<div class="md:flex flex-col md:h-full break-words bg-white rounded overflow-hidden shadow-md">
 
     <div class="font-semibold bg-gray-200 text-gray-700 py-3 pl-6 pr-3 flex justify-between items-center">
         <span class="uppercase text-sm tracking-wider">{{ $title }}</span>
