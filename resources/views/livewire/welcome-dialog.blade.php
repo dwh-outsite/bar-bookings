@@ -1,7 +1,7 @@
 <div>
     @if ($state !== 'inactive')
     <div id="background-overlay" class="absolute w-screen h-screen bg-black bg-opacity-75 z-50 top-0 left-0 flex items-center justify-center">
-        <div id="welcome-dialog" class="bg-white rounded-lg overflow-hidden w-1/3 shadow-xl">
+        <div id="welcome-dialog" class="bg-white rounded-lg overflow-hidden mx-4 md:w-1/3 shadow-xl">
             <div class="bg-purple-500 text-gray-100 shadow px-6 py-4 text-lg flex justify-between items-center">
                 <div>
                     @empty($name)
@@ -56,14 +56,14 @@
                     </div>
 
                     <div class="flex flex-wrap mb-6">
-                        <div class="flex w-full">
-                            <label for="twoseat-false" class="block bg-purple-200 rounded p-4 font-semibold flex-1 mr-2">
+                        <div class="md:flex w-full md:space-x-4 space-y-4 md:space-y-0">
+                            <label for="twoseat-false" class="block bg-purple-200 rounded p-4 font-semibold flex-1">
                                 <input id="twoseat-false" type="radio" class="form-radio h-8 w-8 mr-2 text-purple-500 @error('twoseat') border-red-500 @enderror" wire:model="twoseat" value="false" required>
                                 Individual Seat
                             </label>
 
                             @if ($event->availableTwoSeats() > 0)
-                                <label for="twoseat-true" class="block bg-purple-200 rounded p-4 font-semibold flex-1 flex ml-2">
+                                <label for="twoseat-true" class="block bg-purple-200 rounded p-4 font-semibold flex-1 flex">
                                     <input id="twoseat-true" type="radio" class="form-radio h-8 w-8 mr-2 text-purple-500 @error('twoseat') border-red-500 @enderror" wire:model="twoseat" value="true" required>
                                     <div>
                                         Two-person Seat

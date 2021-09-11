@@ -23,7 +23,7 @@
     <div id="app" class="h-full flex flex-col">
         <div class="bg-purple-500 text-gray-100 py-1 px-12"></div>
 
-        <div class="flex-1 px-12 pt-8 ">
+        <div class="flex-1 px-4 md:px-12 pt-8 ">
             @yield('content')
         </div>
     </div>

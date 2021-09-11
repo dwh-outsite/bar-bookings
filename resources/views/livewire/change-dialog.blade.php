@@ -1,7 +1,7 @@
 <div>
     @if ($state !== 'inactive')
     <div class="absolute w-screen h-screen bg-black bg-opacity-75 z-50 top-0 left-0 flex items-center justify-center">
-        <div class="bg-white rounded-lg overflow-hidden w-1/3 shadow-xl">
+        <div class="bg-white rounded-lg overflow-hidden mx-4 md:w-1/3 shadow-xl">
             <div class="bg-purple-500 text-gray-100 shadow px-6 py-4 text-lg flex justify-between items-center">
                 <div>
                     <strong>Change booking of</strong>
