@@ -14,7 +14,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $futureEvents = Event::endDateInTheFuture(6)->orderBy('start')->get();
+        $futureEvents = $this->scopedOngoingEvents()->orderBy('start')->get();
 
         return view('bar.events.index', compact('futureEvents'));
     }
@@ -22,11 +22,18 @@ class EventsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Event $event
+     * @param int $eventId
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+    public function show(int $eventId)
     {
+        $event = $this->scopedOngoingEvents()->findOrFail($eventId);
+
         return view('bar.events.show', compact('event'));
+    }
+
+    private function scopedOngoingEvents()
+    {
+        return Event::endDateInTheFuture(6)->hasStarted();
     }
 }

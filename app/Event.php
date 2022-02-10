@@ -57,6 +57,11 @@ class Event extends Model
         return $this->end->greaterThanOrEqualTo(Carbon::now());
     }
 
+    public function scopeHasStarted($query, $includedPastHours = 0)
+    {
+        $query->where('start', '<=', Carbon::now()->addHours($includedPastHours));
+    }
+
     public function scopeEndDateInTheFuture($query, $includedPastHours = 0)
     {
         $query->where('end', '>=', Carbon::now()->subHours($includedPastHours));
