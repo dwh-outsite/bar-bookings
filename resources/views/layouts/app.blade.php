@@ -18,6 +18,11 @@
     @livewireStyles
 </head>
 <body class="bg-gray-100 h-screen antialiased leading-none">
+    <div class="bg-red-200 p-6 text-xl">
+      <strong>Let op:</strong>
+      Vanaf 1 november 2024 wordt deze boekingsoftware niet meer ondersteund.
+      Het systeem en alle gerelateerde data zijn vanaf dan niet meer beschikbaar.
+    </div>
     <div id="app">
         <nav class="bg-purple-500 text-gray-100 shadow mb-8 py-6">
             <div class="container mx-auto px-6 md:px-0">
